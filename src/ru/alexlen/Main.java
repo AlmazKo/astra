@@ -9,7 +9,7 @@ import static java.lang.Math.*;
 
 
 public class Main extends JPanel {
-    final public static double RATE = 0.05;
+    final public static double RATE = 0.02;
 
     ArrayList<Figure> figures = new ArrayList<>();
     Figure sun = new Figure(30, 0, 0, new Color(0xFFB02A));
@@ -41,6 +41,12 @@ public class Main extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
+        Graphics2D graphics2D = (Graphics2D)g;
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+
         super.paintComponent(g);
 
         sun.draw(g);
