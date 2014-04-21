@@ -4,6 +4,7 @@ import java.awt.*;
 
 //import static java.awt.Color.*;
 import static java.lang.Math.*;
+import static ru.alexlen.Main.*;
 
 /**
  * Created by almazko on 20.04.14.
@@ -44,15 +45,15 @@ public class Figure {
         double offset =  2 * PI * Main.RATE /(speed);
         angle +=offset;
 
-        x = centerX + (int) round(radius * cos(angle));
-        y = centerY + (int) round(radius * sin(angle));
+        x = centerX + (int) round(radius * SCALE * cos(angle));
+        y = centerY + (int) round(radius * SCALE * sin(angle));
 
     }
 
 
     public void draw(Graphics g) {
         g.setColor(color);
-        g.fillOval(x - size/2, y - size/2, size, size);
+        g.fillOval(x - (int)( size/2 * SCALE), y - (int)(size/2*SCALE), (int) (size*SCALE), (int) (size*SCALE));
     }
 
 

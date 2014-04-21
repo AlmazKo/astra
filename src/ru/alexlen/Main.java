@@ -10,6 +10,7 @@ import static java.lang.Math.*;
 
 public class Main extends JPanel {
     final public static double RATE = 0.02;
+    final public static double SCALE = 1;
 
     ArrayList<Figure> figures = new ArrayList<>();
     Figure sun = new Figure(30, 0, 0, new Color(0xFFB02A));
