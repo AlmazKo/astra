@@ -10,7 +10,8 @@ import java.io.InputStream;
 
 public class Main extends JPanel {
     final public static double RATE = 0.02;
-    public static double SCALE = 2;
+    public static double TIME_SPEED  = 1;
+    public static double SCALE = 1;
     public static Coordinate CENTER = new Coordinate(250, 350);
     final public static Color PATH_COLOR = new Color(0x3A3A3A);
     final public static Color SELECTED_COLOR = new Color(0xE8E8E8);
@@ -96,17 +97,19 @@ public class Main extends JPanel {
 
 
         asteroids.set(CENTER);
-        int size;
+        double size;
         double speed;
         int radius;
 
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < 2000; i++) {
 
-            size = (int) Math.round(Math.random() * 2);
-            speed = 10 + Math.random() * 2;
+            size = Math.random() * Math.random() * 1.1;
+            speed = 10 + Math.random();
             radius = (int) Math.round(140 + Math.random() * 60 * Math.random() *(Math.random()-0.5));
 
-            asteroids.add(0, new Subject(size, speed, radius, new Color(0xDADDD8)));
+            Subject aster = new Subject(size, speed, radius, new Color(0xDADDD8));
+            aster.angle = Math.random() *Math.PI * 2;
+            asteroids.add(0, aster);
         }
 
         createFonts();
@@ -182,19 +185,19 @@ public class Main extends JPanel {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
-                        CENTER.x +=10;
-                        break;
-
-                    case KeyEvent.VK_LEFT:
                         CENTER.x -=10;
                         break;
 
+                    case KeyEvent.VK_LEFT:
+                        CENTER.x +=10;
+                        break;
+
                     case KeyEvent.VK_UP:
-                        CENTER.y -=10;
+                        CENTER.y +=10;
                         break;
 
                     case KeyEvent.VK_DOWN:
-                        CENTER.y +=10;
+                        CENTER.y -=10;
                         break;
 
                     case 61:

@@ -26,29 +26,26 @@ public class Subject {
 
     boolean isSelected = false;
 
-    int x = 0;
-    int y = 0;
-
     Coordinate c = new Coordinate(0, 0);
     Coordinate center;
 
     double angle = 0;
 
-    private final int size;
+    private final double size;
     private final double speed;
     private final int radius;
     private final Color color;
 
 
 
-    public Subject(int size, double speed, int radius) {
+    public Subject(double size, double speed, int radius) {
         this.size = size;
         this.speed = speed;
         this.radius = radius;
         this.color = Color.BLACK;
     }
 
-    public Subject(int size, double speed, int radius, Color color) {
+    public Subject(double size, double speed, int radius, Color color) {
         this.size = size;
         this.speed = speed;
         this.radius = radius;
@@ -57,11 +54,16 @@ public class Subject {
 
     public void draw(Graphics2D g) {
 
-//        if (radius > 0) {
-//            g.setColor(PATH_COLOR);
-//            g.setStroke(dashed);
-//            g.drawOval(center.x - (int) (radius* SCALE), center.y - (int)( radius* SCALE), (int) (radius * 2* SCALE), (int)(radius * 2* SCALE));
-//        }
+        if (radius > 0 && size > 1.5) {
+            g.setColor(PATH_COLOR);
+            g.setStroke(dashed);
+            g.drawOval(center.x - (int) (radius* SCALE), center.y - (int)( radius* SCALE), (int) (radius * 2* SCALE), (int)(radius * 2* SCALE));
+        }
+
+
+        if (size * SCALE < 1) {
+            return;
+        }
 
         int x,y,diameter;
         x = c.x - (int) (size / 2 * SCALE);
@@ -83,6 +85,8 @@ public class Subject {
     public Coordinate set(Coordinate co) {
         center = co;
         double offset = 2 * PI * Main.RATE / (speed);
+
+        // TODO add counting
         angle += offset;
 
         c.x = co.x + (int) round(radius * SCALE * cos(angle));
