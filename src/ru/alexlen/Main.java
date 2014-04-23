@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 public class Main extends JPanel {
     final public static double RATE = 0.02;
-    final public static double SCALE = 2;
+    public static double SCALE = 2;
     public static Coordinate CENTER = new Coordinate(250, 350);
     final public static Color PATH_COLOR = new Color(0x3A3A3A);
     final public static Color SELECTED_COLOR = new Color(0xE8E8E8);
@@ -174,6 +174,8 @@ public class Main extends JPanel {
 
     private void setKeyBindings() {
 
+
+
         KeyEventDispatcher keyEventDispatcher = e -> {
 
             if(e.getID() == KeyEvent.KEY_PRESSED) {
@@ -194,12 +196,22 @@ public class Main extends JPanel {
                     case KeyEvent.VK_DOWN:
                         CENTER.y +=10;
                         break;
+
+                    case 61:
+                        SCALE +=0.1;
+                        break;
+
+                    case 45:
+                        SCALE -=0.1;
+                        break;
                 }
             }
 
 
             return true;
-        };/*        KeyEventDispatcher keyEventDispatcher = e -> {
+        };
+
+        /*        KeyEventDispatcher keyEventDispatcher = e -> {
 
             if (e.getKeyCode() == KeyEvent.VK_RIGHT && e.getID() == KeyEvent.KEY_PRESSED) {
                 if (currentSelected == -1) {
