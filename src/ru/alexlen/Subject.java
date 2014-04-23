@@ -24,6 +24,8 @@ public class Subject {
 
     Meta meta = new Meta();
 
+    boolean isSelected = false;
+
     int x = 0;
     int y = 0;
 
@@ -36,6 +38,7 @@ public class Subject {
     private final double speed;
     private final int radius;
     private final Color color;
+
 
 
     public Subject(int size, double speed, int radius) {
@@ -54,23 +57,28 @@ public class Subject {
 
     public void draw(Graphics2D g) {
 
-        if (radius > 0) {
-            g.setColor(PATH_COLOR);
-            g.setStroke(dashed);
-            g.drawOval(center.x - (int) (radius* SCALE), center.y - (int)( radius* SCALE), (int) (radius * 2* SCALE), (int)(radius * 2* SCALE));
-        }
+//        if (radius > 0) {
+//            g.setColor(PATH_COLOR);
+//            g.setStroke(dashed);
+//            g.drawOval(center.x - (int) (radius* SCALE), center.y - (int)( radius* SCALE), (int) (radius * 2* SCALE), (int)(radius * 2* SCALE));
+//        }
 
+        int x,y,diameter;
+        x = c.x - (int) (size / 2 * SCALE);
+        y = c.y - (int) (size / 2 * SCALE);
+        diameter = (int) (size * SCALE);
+
+        if (isSelected && isBlinked) {
+            g.setColor(SELECTED_COLOR);
+            g.fillOval((int) (x - 1 * SCALE), (int) (y - 1 * SCALE), (int) (diameter + 2 * SCALE), (int) (diameter + 2 * SCALE));
+
+        }
 
         g.setStroke(new BasicStroke());
         g.setColor(color);
-
-
-
-        g.fillOval(c.x - (int) (size / 2 * SCALE), c.y - (int) (size / 2 * SCALE), (int) (size * SCALE), (int) (size * SCALE));
-
-
-
+        g.fillOval(x, y, diameter,diameter);
     }
+
 
     public Coordinate set(Coordinate co) {
         center = co;

@@ -27,6 +27,7 @@ public class Tree {
     public ArrayList<Tree> getChildren() {
         return children;
     }
+
     public void add(int index, Tree child) {
         children.add(index, child);
     }
@@ -38,9 +39,12 @@ public class Tree {
     public Tree getChild(final int index) {
         return children.get(index);
     }
-    
+
     public void draw(Graphics2D g) {
-        root.draw(g);
+        if (root != null) {
+            root.draw(g);
+        }
+
         for (Tree f : children) {
 
             f.draw(g);
@@ -48,8 +52,12 @@ public class Tree {
     }
 
     public Coordinate set(final Coordinate co) {
-        Coordinate rootCoordinate = root.set(co);
-
+        Coordinate rootCoordinate;
+        if (root != null) {
+            rootCoordinate = root.set(co);
+        } else {
+            rootCoordinate = co;
+        }
         for (Tree f : children) {
             f.set(rootCoordinate);
         }
@@ -57,7 +65,6 @@ public class Tree {
         return rootCoordinate;
 
     }
-
 
 
 }
