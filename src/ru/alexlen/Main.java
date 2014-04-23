@@ -11,7 +11,7 @@ import java.io.InputStream;
 public class Main extends JPanel {
     final public static double RATE = 0.02;
     final public static double SCALE = 2;
-    final public static Coordinate CENTER = new Coordinate(250, 350);
+    public static Coordinate CENTER = new Coordinate(250, 350);
     final public static Color PATH_COLOR = new Color(0x3A3A3A);
     final public static Color SELECTED_COLOR = new Color(0xE8E8E8);
     final public static int BLINKED_TIMEOUT = 400;
@@ -176,6 +176,31 @@ public class Main extends JPanel {
 
         KeyEventDispatcher keyEventDispatcher = e -> {
 
+            if(e.getID() == KeyEvent.KEY_PRESSED) {
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_RIGHT:
+                        CENTER.x +=10;
+                        break;
+
+                    case KeyEvent.VK_LEFT:
+                        CENTER.x -=10;
+                        break;
+
+                    case KeyEvent.VK_UP:
+                        CENTER.y -=10;
+                        break;
+
+                    case KeyEvent.VK_DOWN:
+                        CENTER.y +=10;
+                        break;
+                }
+            }
+
+
+            return true;
+        };/*        KeyEventDispatcher keyEventDispatcher = e -> {
+
             if (e.getKeyCode() == KeyEvent.VK_RIGHT && e.getID() == KeyEvent.KEY_PRESSED) {
                 if (currentSelected == -1) {
                     currentSelected = 0;
@@ -208,7 +233,7 @@ public class Main extends JPanel {
 
 
             return true;
-        };
+        };*/
 
 //        KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
 //            @Override
