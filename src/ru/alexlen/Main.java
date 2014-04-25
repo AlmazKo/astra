@@ -2,25 +2,23 @@ package ru.alexlen;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
 
 
 public class Main extends JPanel {
-    final public static double RATE = 0.04;
-    public static double TIME_SPEED  = 2;
-
+    final public static double RATE = 0.1;
+    public static double TIME_SPEED  = 86400;
 
     final public static int BLINKED_TIMEOUT = 400;
 
-
-//    Tree asteroids = new Tree(null);
-
     public static boolean isBlinked = true;
-    public static long time = System.currentTimeMillis();
-    public static long lastBlinkedTime = System.currentTimeMillis();
-    static int currentSelected = -1;
+
+    public final static long START_TIME = System.currentTimeMillis();
+    public static long time = START_TIME;
+    public static long lastBlinkedTime = START_TIME;
 
     Font titleFont;
     Font mainFont;
@@ -41,11 +39,13 @@ public class Main extends JPanel {
 
         sun = Data.populate();
 
-        SELECTED_SUBJECT = sun.children.get(2);
+        SELECTED_SUBJECT = sun.children.get(0);
 
         createFonts();
         createWindow();
         setKeyBindings();
+
+        drawer.setScale(5e-9);
     }
 
     void createWindow() {
@@ -100,7 +100,7 @@ public class Main extends JPanel {
 
 
         drawer.draw(graphics2D);
-        showInfo(graphics2D, currentSelected);
+        showInfo(graphics2D, sun.children.get(0));
 
     }
 
@@ -108,40 +108,40 @@ public class Main extends JPanel {
 
 //
 //
-//        KeyEventDispatcher keyEventDispatcher = e -> {
-//
-//            if(e.getID() == KeyEvent.KEY_PRESSED) {
-//
-//                switch (e.getKeyCode()) {
-//                    case KeyEvent.VK_RIGHT:
-//                        SCREEN_CENTER.x -=10;
-//                        break;
-//
-//                    case KeyEvent.VK_LEFT:
-//                        SCREEN_CENTER.x +=10;
-//                        break;
-//
-//                    case KeyEvent.VK_UP:
-//                        SCREEN_CENTER.y +=10;
-//                        break;
-//
-//                    case KeyEvent.VK_DOWN:
-//                        SCREEN_CENTER.y -=10;
-//                        break;
-//
-//                    case 61:
-//                        SCALE +=0.1;
-//                        break;
-//
-//                    case 45:
-//                        SCALE -=0.1;
-//                        break;
-//                }
-//            }
-//
-//
-//            return true;
-//        };
+        KeyEventDispatcher keyEventDispatcher = e -> {
+
+            if(e.getID() == KeyEvent.KEY_PRESSED) {
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_RIGHT:
+                        Drawer.SCREEN_CENTER.x -=10;
+                        break;
+
+                    case KeyEvent.VK_LEFT:
+                        Drawer.SCREEN_CENTER.x +=10;
+                        break;
+
+                    case KeyEvent.VK_UP:
+                        Drawer.SCREEN_CENTER.y +=10;
+                        break;
+
+                    case KeyEvent.VK_DOWN:
+                        Drawer.SCREEN_CENTER.y -=10;
+                        break;
+
+                    case 61:
+                        drawer.setScale(drawer.scale * 1.1);
+                        break;
+
+                    case 45:
+                        drawer.setScale(drawer.scale * 0.9);
+                        break;
+                }
+            }
+
+
+            return true;
+        };
 
         /*        KeyEventDispatcher keyEventDispatcher = e -> {
 
@@ -197,7 +197,7 @@ public class Main extends JPanel {
 //            }
 //        };
 
-//        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
+       KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
 
     }
 
@@ -212,7 +212,7 @@ public class Main extends JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
     }
 
-    void showInfo(Graphics2D g, int index) {
+    void showInfo(Graphics2D g, Subject s) {
 
 
         final int x = 10;
@@ -227,15 +227,17 @@ public class Main extends JPanel {
 
 //
 //        if (index >= 0) {
-//            Meta meta = planets.getChild(index).getRoot().meta;
-//
-//            g.drawString(meta.name, x, y + 20);
-////        setFont(mainFont);
-//            g.drawString(String.format("Period ....... %dd", meta.period), x, y + 40);
+            Meta meta = s.meta;
+
+            g.drawString(meta.name, x, y + 20);
+//        setFont(mainFont);
+            g.drawString(String.format("Period ....... %dd", meta.period), x, y + 40);
+            g.drawString(String.format("Оборотов ....... %d ", s.cnt), x, y + 60);
+            g.drawString(String.format("Angle ....... %1.6f ", s.p.angle), x+200, y + 60);
 //        }
 
 
-        g.drawString(String.format("%2.3f", time/1000.0), x+300, y + 20);
+        g.drawString(String.format("%2.3f", (time-START_TIME)/1000.0), x+300, y + 20);
     }
 
 
@@ -264,7 +266,7 @@ public class Main extends JPanel {
 
 
                 time = System.currentTimeMillis();
-                sun.move((time - oldTime) / 86400.0 * TIME_SPEED);
+                sun.move((time - oldTime)/1000.0*TIME_SPEED);
 
 //                planets.calcPositions(SCREEN_CENTER);
                // asteroids.calcPositions(SCREEN_CENTER);

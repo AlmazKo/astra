@@ -13,46 +13,46 @@ public class Data {
 
         Subject sun = new Subject(2392e+4);
 ////        Subject sun = new Subject(1392e+6);
-        sun.meta.color =   new Color(0xFEE640);
+        sun.meta.color = new Color(0xFEE640);
         sun.meta.name = "Sun";
 
 
-        Subject mercury = new Subject(2439e+3, 87.97/365, new PolarCoordinate(0, 58e+9));
+        Subject mercury = new Subject(2439e+3, 87.97 * 86_400, new PolarCoordinate(0, 58e+9));
         mercury.meta.name = "Mercury";
         mercury.meta.period = 115;
         mercury.meta.color = new Color(0xFEC07D);
         sun.add(mercury);
 
-        Subject venus = new Subject(6051e+3, 224.7/365, new PolarCoordinate(0, 108e+9));
+        Subject venus = new Subject(6051e+3, 224.7*86_400, new PolarCoordinate(0, 108e+9));
         venus.meta.name = "Venus";
         venus.meta.period = 224;
         venus.meta.color = new Color(0x919D34);
         sun.add(venus);
-
-        Subject earth = new Subject(6371e+3, 1,  new PolarCoordinate(0, 149e+9));
+//
+        Subject earth = new Subject(6371e+3, 365.0 * 86_400, new PolarCoordinate(0, 149e+9));
         earth.meta.name = "Earth";
         earth.meta.period = 365;
         earth.meta.color = new Color(0x15ABFF);
 
-        Subject moon = new Subject(1738e+3, 29.5/365, new PolarCoordinate(0, 384e+6));
+        Subject moon = new Subject(1738e+3, 29.5  * 86_400, new PolarCoordinate(0, 384e+6));
         moon.meta.name = "Moon";
         moon.meta.period = 29;
         moon.meta.color = new Color(0xE9E4EA);
         earth.add(moon);
         sun.add(earth);
 
-        Subject mars = new Subject(4439e+3, 779.0/365, new PolarCoordinate(0, 200e+9));
+        Subject mars = new Subject(4439e+3, 779.0 * 86_400, new PolarCoordinate(0, 200e+9));
         mars.meta.name = "Mars";
         mars.meta.color = new Color(0xffff0000);
         mars.meta.period = 779;
         sun.add(mars);
-
-        Subject jupiter = new Subject(69_911e+3, 4332.6/365, new PolarCoordinate(0, 770e+9));
+//
+        Subject jupiter = new Subject(69_911e+3, 4332.6 * 86_400, new PolarCoordinate(0, 770e+9));
         jupiter.meta.name = "Jupiter";
         jupiter.meta.period = 4_332;
         jupiter.meta.color = new Color(0x900000);
         sun.add(jupiter);
-//
+
 //
 //        Subject saturn = new Subject(13, 148, 450, new Color(0xFFEB13));
 //        saturn.meta.name = "Saturn";

@@ -13,13 +13,17 @@ public class Subject {
     ArrayList<Subject> children = new ArrayList<>(0);
     Meta meta = new Meta();
     PolarCoordinate p;
+    Long cnt = 0L;
+
+    final static double PI2 = 2 * PI;
+
 
     /*
      * angular velocity
      */
     private final double velocity;
 
-   final double size;
+    final double size;
 
     public Subject(double size, double rate, PolarCoordinate p) {
         this.velocity = 2 * PI / rate;
@@ -32,10 +36,11 @@ public class Subject {
         this.size = size;
         this.p = p;
     }
+
     public Subject(double size) {
         this.velocity = 0;
         this.size = size;
-        this.p = new PolarCoordinate(0,0);
+        this.p = new PolarCoordinate(0, 0);
     }
 
 //    public void draw(Graphics2D g) {
@@ -82,9 +87,28 @@ public class Subject {
 //
 //    }
 
-    void move(double msTime) {
+    void move(final double msTime) {
         if (p.radius > 0) {
-            p.angle += velocity * msTime;
+
+            double offset = velocity * msTime;
+            if (offset < PI2) {
+                if (p.angle < PI2 && (p.angle + offset) >= PI2) {
+                    cnt++;
+                    p.angle -= PI2;
+                }
+            } else {
+                p.angle -= PI2 * (int) (offset / PI2);
+                cnt += (int) (offset / PI2);
+                //TODO!!
+
+            }
+
+            p.angle += offset;
+
+            int x;
+            if (cnt >= 10 && meta.name.equals("Mercury")) {
+                x = 123;
+            }
         }
 
         for (Subject child : children) {
@@ -98,7 +122,7 @@ public class Subject {
     }
 
     int depth() {
-        if (parent != null){
+        if (parent != null) {
             return 1 + parent.depth();
         }
 
