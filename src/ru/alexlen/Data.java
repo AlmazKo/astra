@@ -1,65 +1,57 @@
 package ru.alexlen;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by almazko on 23.04.14.
  */
 public class Data {
 
-    static List<Planet> populate() {
-        ArrayList<Planet> data = new ArrayList<>();
+    static Subject populate() {
+        ArrayList<Subject> data = new ArrayList<>();
 
         Subject sun = new Subject(2392e+4);
 ////        Subject sun = new Subject(1392e+6);
-//        sun.meta.color =   new Color(0xFEE640);
-//        sun.meta.name = "Sun";
-//        data.add(sun);
+        sun.meta.color =   new Color(0xFEE640);
+        sun.meta.name = "Sun";
+
 
         Subject mercury = new Subject(2439e+3, 87.97/365, new PolarCoordinate(0, 58e+9));
         mercury.meta.name = "Mercury";
         mercury.meta.period = 115;
         mercury.meta.color = new Color(0xFEC07D);
-        mercury.center = sun.center;
-
-
-        data.add(new Planet(mercury));
+        sun.add(mercury);
 
         Subject venus = new Subject(6051e+3, 224.7/365, new PolarCoordinate(0, 108e+9));
         venus.meta.name = "Venus";
         venus.meta.period = 224;
         venus.meta.color = new Color(0x919D34);
-        venus.center = sun.center;
-
-        data.add(new Planet(venus)); // venus 224
+        sun.add(venus);
 
         Subject earth = new Subject(6371e+3, 1,  new PolarCoordinate(0, 149e+9));
         earth.meta.name = "Earth";
         earth.meta.period = 365;
         earth.meta.color = new Color(0x15ABFF);
-        earth.center = sun.center;
 
         Subject moon = new Subject(1738e+3, 29.5/365, new PolarCoordinate(0, 384e+6));
         moon.meta.name = "Moon";
         moon.meta.period = 29;
         moon.meta.color = new Color(0xE9E4EA);
+        earth.add(moon);
+        sun.add(earth);
 
-
-        data.add(new Planet(earth, moon));
-//
         Subject mars = new Subject(4439e+3, 779.0/365, new PolarCoordinate(0, 200e+9));
         mars.meta.name = "Mars";
         mars.meta.color = new Color(0xffff0000);
         mars.meta.period = 779;
-        data.add(new Planet(mars)); // mars 779
-//
+        sun.add(mars);
+
         Subject jupiter = new Subject(69_911e+3, 4332.6/365, new PolarCoordinate(0, 770e+9));
         jupiter.meta.name = "Jupiter";
         jupiter.meta.period = 4_332;
         jupiter.meta.color = new Color(0x900000);
-        data.add(new Planet(jupiter)); // jupiter
+        sun.add(jupiter);
 //
 //
 //        Subject saturn = new Subject(13, 148, 450, new Color(0xFFEB13));
@@ -95,7 +87,7 @@ public class Data {
 //        planets.getChild(5).add(0, new Subject(1, 1.4, 19, new Color(0xDADDD8)));
 //
 //
-//        asteroids.calcPositions(CENTER);
+//        asteroids.calcPositions(SCREEN_CENTER);
 //        double size;
 //        double speed;
 //        int radius;
@@ -111,6 +103,6 @@ public class Data {
 //            asteroids.add(0, aster);
 //        }
 
-        return data;
+        return sun;
     }
 }

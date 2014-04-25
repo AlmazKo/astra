@@ -1,12 +1,8 @@
 package ru.alexlen;
 
-import java.awt.*;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.ArrayList;
 
-//import static java.awt.Color.*;
-import static java.lang.Math.*;
-import static ru.alexlen.Main.*;
+import static java.lang.Math.PI;
 
 /**
  * Created by almazko on 20.04.14.
@@ -14,16 +10,9 @@ import static ru.alexlen.Main.*;
 public class Subject {
 
     Subject parent;
-
-
+    ArrayList<Subject> children = new ArrayList<>(0);
     Meta meta = new Meta();
-
-    boolean isSelected = false;
-
-    Coordinate c = new Coordinate(0, 0);
     PolarCoordinate p;
-    GeoCoordinate center;
-//    Coordinate center;
 
     /*
      * angular velocity
@@ -94,13 +83,25 @@ public class Subject {
 //    }
 
     void move(double msTime) {
-        p.angle += velocity * msTime * TIME_SPEED;
+        if (p.radius > 0) {
+            p.angle += velocity * msTime;
+        }
+
+        for (Subject child : children) {
+            child.move(msTime);
+        }
     }
 
-    void setCenter(GeoCoordinate gc) {
-        this.center = gc;
+    void add(Subject s) {
+        children.add(s);
+        s.parent = this;
     }
 
+    int depth() {
+        if (parent != null){
+            return 1 + parent.depth();
+        }
 
-
+        return 1;
+    }
 }

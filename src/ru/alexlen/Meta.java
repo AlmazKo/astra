@@ -19,4 +19,9 @@ public class Meta {
     public Meta(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

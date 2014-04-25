@@ -10,7 +10,7 @@ import java.io.InputStream;
 public class Main extends JPanel {
     final public static double RATE = 0.04;
     public static double TIME_SPEED  = 2;
-    public static double SCALE = 0.000000005;
+
 
     final public static int BLINKED_TIMEOUT = 400;
 
@@ -27,6 +27,10 @@ public class Main extends JPanel {
     static List<Planet> planets;
     static Subject sun;
 
+    static Subject SELECTED_SUBJECT;
+
+    Drawer drawer = new Drawer();
+
     public Main() {
 
 
@@ -35,12 +39,12 @@ public class Main extends JPanel {
         sun.meta.color =   new Color(0xFEE640);
         sun.meta.name = "Sun";
 
-        planets =  Data.populate();
+        sun = Data.populate();
+
+        SELECTED_SUBJECT = sun.children.get(2);
 
         createFonts();
         createWindow();
-
-
         setKeyBindings();
     }
 
@@ -95,7 +99,7 @@ public class Main extends JPanel {
 
 
 
-        Drawer.draw(graphics2D);
+        drawer.draw(graphics2D);
         showInfo(graphics2D, currentSelected);
 
     }
@@ -110,19 +114,19 @@ public class Main extends JPanel {
 //
 //                switch (e.getKeyCode()) {
 //                    case KeyEvent.VK_RIGHT:
-//                        CENTER.x -=10;
+//                        SCREEN_CENTER.x -=10;
 //                        break;
 //
 //                    case KeyEvent.VK_LEFT:
-//                        CENTER.x +=10;
+//                        SCREEN_CENTER.x +=10;
 //                        break;
 //
 //                    case KeyEvent.VK_UP:
-//                        CENTER.y +=10;
+//                        SCREEN_CENTER.y +=10;
 //                        break;
 //
 //                    case KeyEvent.VK_DOWN:
-//                        CENTER.y -=10;
+//                        SCREEN_CENTER.y -=10;
 //                        break;
 //
 //                    case 61:
@@ -260,13 +264,10 @@ public class Main extends JPanel {
 
 
                 time = System.currentTimeMillis();
+                sun.move((time - oldTime) / 86400.0 * TIME_SPEED);
 
-                for(Planet planet: planets) {
-                    planet.move((time-oldTime)/86400.0);
-                }
-
-//                planets.calcPositions(CENTER);
-               // asteroids.calcPositions(CENTER);
+//                planets.calcPositions(SCREEN_CENTER);
+               // asteroids.calcPositions(SCREEN_CENTER);
 
                 repaint();
                 Thread.sleep((long) (1000 * RATE));

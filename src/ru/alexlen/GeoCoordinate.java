@@ -16,4 +16,9 @@ final class GeoCoordinate {
     Coordinate toScalar() {
         return new Coordinate((int) x, (int) y);
     }
+
+    @Override
+    public String toString() {
+        return String.format("[x=%1.2f, y=%1.2f]", x, y);
+    }
 }
