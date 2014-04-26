@@ -186,7 +186,9 @@ public class Main extends JPanel {
     void game() {
 
         Owner player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
+        Owner nasa = Owner.createPlayer("NASA", new Color(0x15F5FF));
         players.add(player);
+        players.add(nasa);
 
         Subject earth = system.children.get(2);
 
@@ -203,6 +205,17 @@ public class Main extends JPanel {
         earth.add(ship2);
         earth.add(ship3);
         earth.add(ship4);
+
+
+
+        Ship nasaMoon = new Ship(5, 50 * 60, new PolarCoordinate(0, 200e+3), nasa);
+        ship1.meta.name = "Moon orbiter";
+
+
+        Subject moon = earth.children.get(0);
+
+        moon.add(nasaMoon);
+
     }
 
 }
