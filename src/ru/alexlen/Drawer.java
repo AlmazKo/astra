@@ -40,8 +40,10 @@ public class Drawer {
     void draw(Graphics2D g) {
         this.g = g;
 
-        if (Main.SELECTED_SUBJECT != null){
+        if (Main.SELECTED_SUBJECT != null) {
             reversDrawSubject(Main.SELECTED_SUBJECT, null, GCENTER);
+
+
         } else {
             drawSubject(Main.sun, GCENTER);
         }
@@ -90,6 +92,11 @@ public class Drawer {
         double diameter = 2 * sSize;
 
         if (diameter < 0.5) {
+
+            if (subject == Main.SELECTED_SUBJECT) {
+                staticDrawSelected(x, y, diameter, diameter);
+            }
+
             return sgc;
         }
 
@@ -97,11 +104,23 @@ public class Drawer {
             diameter = 1;
         }
 
+        if (subject == Main.SELECTED_SUBJECT) {
+            staticDrawSelected(x, y, diameter, diameter);
+        }
+
         g.setStroke(new BasicStroke());
         g.setColor(subject.meta.color);
         g.fillOval(x, y, (int) diameter, (int) diameter);
 
         return sgc;
+    }
+
+    void staticDrawSelected(int x, int y, double w, double h) {
+        if (Main.isBlinked) {
+            final int border = (int) Math.round(w / 50.0 + 0.5);
+            g.setColor(SELECTED_COLOR);
+            g.fillOval(x - border, y - border, (int) w + 2 * border, (int) h + 2 * border);
+        }
     }
 
     private void drawOrbit(Subject subject, Coordinate parentPos) {
