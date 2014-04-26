@@ -78,6 +78,8 @@ public class Drawer {
 
         if (subject.meta.type == SubjectType.PLANET) {
             drawOrbit(subject, parentPos);
+        } else if (subject == Main.SELECTED_SUBJECT) {
+            drawOrbit(subject, parentPos);
         }
 
         Coordinate sgc = new Coordinate(parentPos.x - relPos.x, parentPos.y - relPos.y);

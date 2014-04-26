@@ -29,6 +29,7 @@ public class Main extends JPanel {
     static Subject sun;
 
     static Subject SELECTED_SUBJECT;
+    static int SELECTED_INDEX;
 
     Drawer drawer = new Drawer();
 
@@ -36,7 +37,7 @@ public class Main extends JPanel {
 
         sun = Data.populate();
 
-        SELECTED_SUBJECT = sun.children.get(2);
+//        SELECTED_SUBJECT = sun.children.get(2);
 
         createFonts();
         createWindow();
@@ -139,6 +140,39 @@ public class Main extends JPanel {
 
                     case 93:
                         TIME_SPEED /= 0.1;
+                        break;
+
+
+                    case 81: //previous subject
+                        if (SELECTED_SUBJECT == null) {
+                            SELECTED_INDEX = sun.children.size()-1;
+                        } else {
+                            if (SELECTED_INDEX == 0) {
+                                SELECTED_INDEX = sun.children.size()-1;
+                            } else {
+                                SELECTED_INDEX--;
+                            }
+
+
+                        }
+                        SELECTED_SUBJECT= sun.children.get(SELECTED_INDEX);
+
+                        break;
+
+                    case 87: //next subject
+
+                        if (SELECTED_SUBJECT == null) {
+                           SELECTED_INDEX = 0;
+                        } else {
+                            if (SELECTED_INDEX >= sun.children.size()-1) {
+                                SELECTED_INDEX = 0;
+                            } else {
+                                SELECTED_INDEX++;
+                            }
+
+                        }
+                        SELECTED_SUBJECT= sun.children.get(SELECTED_INDEX);
+
                         break;
                 }
             }
