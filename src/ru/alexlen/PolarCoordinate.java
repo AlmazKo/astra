@@ -14,7 +14,7 @@ final class PolarCoordinate {
         this.radius = radius;
     }
 
-    GeoCoordinate toEuсlid() {
-        return new GeoCoordinate(radius * cos(angle), radius * sin(angle));
+    Coordinate toEuсlid() {
+        return new Coordinate(radius * cos(angle), radius * sin(angle));
     }
 }

@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 
 public class Main extends JPanel {
-    final public static double RATE = 0.1;
+    final public static double RATE = 0.04;
     public static double TIME_SPEED  = 86400;
 
     final public static int BLINKED_TIMEOUT = 400;
@@ -22,7 +22,7 @@ public class Main extends JPanel {
 
     Font titleFont;
     Font mainFont;
-    static List<Planet> planets;
+
     static Subject sun;
 
     static Subject SELECTED_SUBJECT;
@@ -30,12 +30,6 @@ public class Main extends JPanel {
     Drawer drawer = new Drawer();
 
     public Main() {
-
-
-         sun = new Subject(1392e+5);
-//        Subject sun = new Subject(1392e+6);
-        sun.meta.color =   new Color(0xFEE640);
-        sun.meta.name = "Sun";
 
         sun = Data.populate();
 
@@ -114,19 +108,19 @@ public class Main extends JPanel {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
-                        Drawer.SCREEN_CENTER.x -=10;
+                        Drawer.GCENTER.x -=10;
                         break;
 
                     case KeyEvent.VK_LEFT:
-                        Drawer.SCREEN_CENTER.x +=10;
+                        Drawer.GCENTER.x +=10;
                         break;
 
                     case KeyEvent.VK_UP:
-                        Drawer.SCREEN_CENTER.y +=10;
+                        Drawer.GCENTER.y +=10;
                         break;
 
                     case KeyEvent.VK_DOWN:
-                        Drawer.SCREEN_CENTER.y -=10;
+                        Drawer.GCENTER.y -=10;
                         break;
 
                     case 61:
@@ -135,6 +129,14 @@ public class Main extends JPanel {
 
                     case 45:
                         drawer.setScale(drawer.scale * 0.9);
+                        break;
+
+                    case 91:
+                        TIME_SPEED *=0.1;
+                        break;
+
+                    case 93:
+                        TIME_SPEED /=0.1;
                         break;
                 }
             }
@@ -234,6 +236,7 @@ public class Main extends JPanel {
             g.drawString(String.format("Period ....... %dd", meta.period), x, y + 40);
             g.drawString(String.format("Оборотов ....... %d ", s.cnt), x, y + 60);
             g.drawString(String.format("Angle ....... %1.6f ", s.p.angle), x+200, y + 60);
+            g.drawString(String.format("Work ....... %3d ms", System.currentTimeMillis() - time), x+200, y + 40);
 //        }
 
 
