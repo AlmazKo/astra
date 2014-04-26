@@ -45,7 +45,7 @@ public class Drawer {
 
 
         } else {
-            drawSubject(Main.sun, GCENTER);
+            drawSubject(Main.system, GCENTER);
         }
     }
 
@@ -86,6 +86,13 @@ public class Drawer {
 
         Coordinate sgc = new Coordinate(parentPos.x - relPos.x, parentPos.y - relPos.y);
 
+
+        if (subject instanceof Ship) {
+            drawShip((Ship) subject, sgc);
+            return sgc;
+        }
+
+
         final double sSize = subject.size * sizeScale;
         final int x = (int) (sgc.x - sSize);
         final int y = (int) (sgc.y - sSize);
@@ -94,7 +101,7 @@ public class Drawer {
         if (diameter < 0.5) {
 
             if (subject == Main.SELECTED_SUBJECT) {
-                staticDrawSelected(x, y, diameter, diameter);
+                drawSelected(x, y, diameter, diameter);
             }
 
             return sgc;
@@ -105,7 +112,7 @@ public class Drawer {
         }
 
         if (subject == Main.SELECTED_SUBJECT) {
-            staticDrawSelected(x, y, diameter, diameter);
+            drawSelected(x, y, diameter, diameter);
         }
 
         g.setStroke(new BasicStroke());
@@ -115,7 +122,23 @@ public class Drawer {
         return sgc;
     }
 
-    void staticDrawSelected(int x, int y, double w, double h) {
+    void drawShip(Ship ship, Coordinate sgc) {
+
+        final int x = (int) (sgc.x - 1);
+        final int y = (int) (sgc.y - 1);
+        final int diameter = 3;
+
+
+        if (Main.isFastBlinked) {
+
+            g.setStroke(new BasicStroke());
+            g.setColor(ship.meta.color);
+            g.fillOval(x, y, diameter, diameter);
+        }
+
+    }
+
+    void drawSelected(int x, int y, double w, double h) {
         if (Main.isBlinked) {
             final int border = (int) Math.round(w / 50.0 + 0.5);
             g.setColor(SELECTED_COLOR);
@@ -138,12 +161,24 @@ public class Drawer {
 
     Coordinate calcRelativePosition(Subject subject) {
         double currentScale = radiusScale;
-        if (subject.depth() > 2) {
+        if (subject.meta.type == SubjectType.MOON) {
             currentScale = radiusMoonScale;
         }
 
-        double gx = subject.p.radius * cos(subject.p.angle) * currentScale;
-        double gy = subject.p.radius * sin(subject.p.angle) * currentScale;
+        double gx, gy;
+
+        if (subject.meta.type == SubjectType.SHIP) {
+            currentScale = radiusMoonScale * 30;
+
+            gx = (subject.parent.size + subject.p.radius) * cos(subject.p.angle) * currentScale;
+            gy = (subject.parent.size + subject.p.radius) * sin(subject.p.angle) * currentScale;
+
+        } else {
+
+            gx = subject.p.radius * cos(subject.p.angle) * currentScale;
+            gy = subject.p.radius * sin(subject.p.angle) * currentScale;
+
+        }
 
         return new Coordinate(gx, gy);
     }

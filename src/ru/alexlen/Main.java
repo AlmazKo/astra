@@ -2,54 +2,52 @@ package ru.alexlen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
+import static java.lang.Math.PI;
 
 public class Main extends JPanel {
+
     final public static double RATE = 0.04;
-    public static double TIME_SPEED = 86400;
-
     final public static int BLINKED_TIMEOUT = 400;
+    final public static int FAST_BLINKED_TIMEOUT = 100;
+    final public static long START_TIME = System.currentTimeMillis();
 
-    public static boolean isBlinked = true;
-
-    public final static long START_TIME = System.currentTimeMillis();
     public static long time = START_TIME;
     public static long lastBlinkedTime = START_TIME;
-
-
-    double since=0;
-
-    Font titleFont;
-    Font mainFont;
-
-    static Subject sun;
-
+    public static long lastFastBlinkedTime = START_TIME;
+    public static double TIME_SPEED = 86400;
+    public static boolean isBlinked = true;
+    public static boolean isFastBlinked = true;
     static Subject SELECTED_SUBJECT;
     static int SELECTED_INDEX;
 
+    static Subject system;
+
+    double since = 0;
+    Font titleFont;
+    Font mainFont;
     Drawer drawer = new Drawer();
 
+    ArrayList<Owner> players = new ArrayList<>();
+
     public Main() {
-
-        sun = Data.populate();
-
-//        SELECTED_SUBJECT = sun.children.get(2);
+        system = Data.populate();
+        game();
 
         createFonts();
         createWindow();
-        setKeyBindings();
-
         drawer.setScale(5e-9);
+
+        InputBinding.bindKeys(drawer);
     }
 
     void createWindow() {
         JFrame frame = new JFrame();
         frame.setLocation(100, 10);
-        frame.setTitle("Macrauto");
+        frame.setTitle("Polaris");
         frame.setMinimumSize(new Dimension(1200, 700));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(this);
@@ -101,109 +99,6 @@ public class Main extends JPanel {
 
     }
 
-    private void setKeyBindings() {
-
-//
-//
-        KeyEventDispatcher keyEventDispatcher = e -> {
-
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_RIGHT:
-                        Drawer.GCENTER.x -= 10;
-                        break;
-
-                    case KeyEvent.VK_LEFT:
-                        Drawer.GCENTER.x += 10;
-                        break;
-
-                    case KeyEvent.VK_UP:
-                        Drawer.GCENTER.y += 10;
-                        break;
-
-                    case KeyEvent.VK_DOWN:
-                        Drawer.GCENTER.y -= 10;
-                        break;
-
-                    case 61:
-                        drawer.setScale(drawer.scale * 1.1);
-                        break;
-
-                    case 45:
-                        drawer.setScale(drawer.scale * 0.9);
-                        break;
-
-                    case 91:
-                        TIME_SPEED *= 0.1;
-                        break;
-
-                    case 93:
-                        TIME_SPEED /= 0.1;
-                        break;
-
-
-                    case 81: //previous subject
-                        if (SELECTED_SUBJECT == null) {
-                            SELECTED_INDEX = sun.children.size()-1;
-                        } else {
-                            if (SELECTED_INDEX == 0) {
-                                SELECTED_INDEX = sun.children.size()-1;
-                            } else {
-                                SELECTED_INDEX--;
-                            }
-
-
-                        }
-                        SELECTED_SUBJECT= sun.children.get(SELECTED_INDEX);
-
-                        break;
-
-                    case 87: //next subject
-
-                        if (SELECTED_SUBJECT == null) {
-                           SELECTED_INDEX = 0;
-                        } else {
-                            if (SELECTED_INDEX >= sun.children.size()-1) {
-                                SELECTED_INDEX = 0;
-                            } else {
-                                SELECTED_INDEX++;
-                            }
-
-                        }
-                        SELECTED_SUBJECT= sun.children.get(SELECTED_INDEX);
-
-                        break;
-                }
-            }
-
-
-            return true;
-        };
-
-
-//        KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
-//            @Override
-//            public boolean dispatchKeyEvent(final KeyEvent e) {
-//                if (e.getID() == KeyEvent.VK_RIGHT) {
-//                    if(currentSelected == -1) {
-//                        currentSelected = 1;
-//                    } else if(currentSelected >= 7)
-//                        currentSelected = 1;
-//                } else {
-//                    currentSelected++;
-//                }
-//
-//
-//                // Pass the KeyEvent to the next KeyEventDispatcher in the chain
-//                return false;
-//            }
-//        };
-
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
-
-    }
-
     public static void applyQualityRenderingHints(Graphics2D g2d) {
         g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -247,25 +142,29 @@ public class Main extends JPanel {
 
     private void circleMove() {
         try {
-            while (true) {
+            long oldTime;
+            double timeOffset;
 
+            while (true) {
 
                 if (time - lastBlinkedTime >= BLINKED_TIMEOUT) {
                     lastBlinkedTime = time;
                     isBlinked = !isBlinked;
                 }
-                long oldTime = time;
+
+                if (time - lastFastBlinkedTime >= FAST_BLINKED_TIMEOUT) {
+                    lastFastBlinkedTime = time;
+                    isFastBlinked = !isFastBlinked;
+                }
+                oldTime = time;
 
 
                 time = System.currentTimeMillis();
-                double ttime= (time - oldTime) / 1000.0 * TIME_SPEED;
+                timeOffset = (time - oldTime) / 1000.0 * TIME_SPEED;
 
-                since += ttime;
+                since += timeOffset;
 
-                sun.move(ttime);
-
-//                planets.calcPositions(SCREEN_CENTER);
-                // asteroids.calcPositions(SCREEN_CENTER);
+                system.move(timeOffset);
 
                 repaint();
                 Thread.sleep((long) (1000 * RATE));
@@ -282,4 +181,28 @@ public class Main extends JPanel {
 
         m.circleMove();
     }
+
+
+    void game() {
+
+        Owner player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
+        players.add(player);
+
+        Subject earth = system.children.get(2);
+
+        Ship ship1 = new Ship(5, 90 * 60, new PolarCoordinate(PI / 2, 300e+3), player);
+        ship1.meta.name = "Space invader I";
+        Ship ship2 = new Ship(3, 100 * 60, new PolarCoordinate(0, 310e+3), player);
+        ship2.meta.name = "Viking 2012";
+        Ship ship3 = new Ship(8, 110 * 60, new PolarCoordinate(PI / 3 * 4, 320e+3), player);
+        ship3.meta.name = "Vostok-4";
+        Ship ship4 = new Ship(9, 200 * 60, new PolarCoordinate(PI / 3, 330e+3), player);
+        ship4.meta.name = "Space invader II";
+
+        earth.add(ship1);
+        earth.add(ship2);
+        earth.add(ship3);
+        earth.add(ship4);
+    }
+
 }

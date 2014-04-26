@@ -12,7 +12,7 @@ public class Data {
         ArrayList<Subject> data = new ArrayList<>();
 
         Subject sun = new Subject(2392e+4);
-////        Subject sun = new Subject(1392e+6);
+////        Subject system = new Subject(1392e+6);
         sun.meta.color = new Color(0xFEE640);
         sun.meta.name = "Sun";
         sun.meta.type = SubjectType.STAR;
