@@ -31,12 +31,6 @@ public class Subject {
         this.p = p;
     }
 
-    public Subject(double size, PolarCoordinate p) {
-        this.velocity = 0;
-        this.size = size;
-        this.p = p;
-    }
-
     public Subject(double size) {
         this.velocity = 0;
         this.size = size;

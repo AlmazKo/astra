@@ -32,7 +32,7 @@ public class Drawer {
     void setScale(double value) {
         scale = value;
         sizeScale = value * 20;
-        radiusScale = value * 0.2;
+        radiusScale = value * 0.1;
         radiusMoonScale = radiusScale * 10;
     }
 
@@ -76,7 +76,7 @@ public class Drawer {
 
     Coordinate drawOrbitalSubject(final Subject subject, final Coordinate parentPos, Coordinate relPos) {
 
-        if (subject.depth() >= 2) {
+        if (subject.meta.type == SubjectType.PLANET) {
             drawOrbit(subject, parentPos);
         }
 
@@ -85,15 +85,19 @@ public class Drawer {
         final double sSize = subject.size * sizeScale;
         final int x = (int) (sgc.x - sSize);
         final int y = (int) (sgc.y - sSize);
-        int diameter = (int) (2 * sSize);
+        double diameter = 2 * sSize;
 
-        if (diameter < 2) {
-            diameter = 2;
+        if (diameter < 0.5) {
+            return sgc;
+        }
+
+        if (diameter < 1) {
+            diameter = 1;
         }
 
         g.setStroke(new BasicStroke());
         g.setColor(subject.meta.color);
-        g.fillOval(x, y, diameter, diameter);
+        g.fillOval(x, y, (int) diameter, (int) diameter);
 
         return sgc;
     }
@@ -103,7 +107,6 @@ public class Drawer {
         if (subject.depth() > 2) {
             currentScale = radiusMoonScale;
         }
-
 
         double radius = subject.p.radius * currentScale;
         //  g.setStroke(dashed);

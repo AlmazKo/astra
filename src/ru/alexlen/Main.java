@@ -10,7 +10,7 @@ import java.io.InputStream;
 
 public class Main extends JPanel {
     final public static double RATE = 0.04;
-    public static double TIME_SPEED  = 86400;
+    public static double TIME_SPEED = 86400;
 
     final public static int BLINKED_TIMEOUT = 400;
 
@@ -19,6 +19,9 @@ public class Main extends JPanel {
     public final static long START_TIME = System.currentTimeMillis();
     public static long time = START_TIME;
     public static long lastBlinkedTime = START_TIME;
+
+
+    double since=0;
 
     Font titleFont;
     Font mainFont;
@@ -33,7 +36,7 @@ public class Main extends JPanel {
 
         sun = Data.populate();
 
-        SELECTED_SUBJECT = sun.children.get(0);
+        SELECTED_SUBJECT = sun.children.get(2);
 
         createFonts();
         createWindow();
@@ -70,9 +73,9 @@ public class Main extends JPanel {
 
 
         try {
-            myFont = Main.class.getResourceAsStream("/font/Roboto-Light.ttf");
+            myFont = Main.class.getResourceAsStream("/font/Roboto-Regular.ttf");
             mainFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
-            mainFont = mainFont.deriveFont(14f);
+            mainFont = mainFont.deriveFont(12f);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -92,9 +95,8 @@ public class Main extends JPanel {
         //applyQualityRenderingHints(graphics2D);
 
 
-
         drawer.draw(graphics2D);
-        showInfo(graphics2D, sun.children.get(0));
+        showInfo(graphics2D, SELECTED_SUBJECT);
 
     }
 
@@ -104,23 +106,23 @@ public class Main extends JPanel {
 //
         KeyEventDispatcher keyEventDispatcher = e -> {
 
-            if(e.getID() == KeyEvent.KEY_PRESSED) {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_RIGHT:
-                        Drawer.GCENTER.x -=10;
+                        Drawer.GCENTER.x -= 10;
                         break;
 
                     case KeyEvent.VK_LEFT:
-                        Drawer.GCENTER.x +=10;
+                        Drawer.GCENTER.x += 10;
                         break;
 
                     case KeyEvent.VK_UP:
-                        Drawer.GCENTER.y +=10;
+                        Drawer.GCENTER.y += 10;
                         break;
 
                     case KeyEvent.VK_DOWN:
-                        Drawer.GCENTER.y -=10;
+                        Drawer.GCENTER.y -= 10;
                         break;
 
                     case 61:
@@ -132,11 +134,11 @@ public class Main extends JPanel {
                         break;
 
                     case 91:
-                        TIME_SPEED *=0.1;
+                        TIME_SPEED *= 0.1;
                         break;
 
                     case 93:
-                        TIME_SPEED /=0.1;
+                        TIME_SPEED /= 0.1;
                         break;
                 }
             }
@@ -145,41 +147,6 @@ public class Main extends JPanel {
             return true;
         };
 
-        /*        KeyEventDispatcher keyEventDispatcher = e -> {
-
-            if (e.getKeyCode() == KeyEvent.VK_RIGHT && e.getID() == KeyEvent.KEY_PRESSED) {
-                if (currentSelected == -1) {
-                    currentSelected = 0;
-                } else if (currentSelected >= 7) {
-                    planets.getChild(currentSelected).getRoot().isSelected = false;
-                    currentSelected = 0;
-                } else {
-                    planets.getChild(currentSelected).getRoot().isSelected = false;
-                    currentSelected++;
-
-                }
-
-                planets.getChild(currentSelected).getRoot().isSelected = true;
-            }
-
-            if (e.getKeyCode() == KeyEvent.VK_LEFT && e.getID() == KeyEvent.KEY_PRESSED) {
-                if (currentSelected == -1) {
-                    currentSelected = 7;
-                } else if (currentSelected <= 0) {
-                    planets.getChild(currentSelected).getRoot().isSelected = false;
-                    currentSelected = 7;
-                } else {
-                    planets.getChild(currentSelected).getRoot().isSelected = false;
-                    currentSelected--;
-
-                }
-
-                planets.getChild(currentSelected).getRoot().isSelected = true;
-            }
-
-
-            return true;
-        };*/
 
 //        KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
 //            @Override
@@ -199,7 +166,7 @@ public class Main extends JPanel {
 //            }
 //        };
 
-       KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
 
     }
 
@@ -218,43 +185,31 @@ public class Main extends JPanel {
 
 
         final int x = 10;
-        final int y = 600;
-        int cursorY = y;
+        final int y = 585;
 
 
         g.setColor(new Color(0x8DFFFD));
-        g.drawLine(0, y, 600, y);
+        g.drawLine(0, y, y, y);
 
-        setFont(titleFont);
 
-//
-//        if (index >= 0) {
+        setFont(mainFont);
+
+        if (s != null) {
             Meta meta = s.meta;
 
-            g.drawString(meta.name, x, y + 20);
-//        setFont(mainFont);
-            g.drawString(String.format("Period ....... %dd", meta.period), x, y + 40);
-            g.drawString(String.format("Оборотов ....... %d ", s.cnt), x, y + 60);
-            g.drawString(String.format("Angle ....... %1.6f ", s.p.angle), x+200, y + 60);
-            g.drawString(String.format("Work ....... %3d ms", System.currentTimeMillis() - time), x+200, y + 40);
-//        }
+            g.drawString(String.format("Name ............... %s", meta.name), x, y + 20);
+            g.drawString(String.format("Type ................. %s", meta.type), x, y + 35);
+            g.drawString(String.format("Period .............. %dd", meta.period), x, y + 50);
+            g.drawString(String.format("Оборотов ....... %d ", s.cnt), x, y + 65);
+            g.drawString(String.format("Angle ............... %1.6f ", s.p.angle), x, y + 80);
 
+        }
 
-        g.drawString(String.format("%2.3f", (time-START_TIME)/1000.0), x+300, y + 20);
+        g.drawString(String.format("Since ........... %3.1f days", since / 86400.0), x + 200, y + 20);
+        g.drawString(String.format("Work ............ %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
+        g.drawString(String.format("Seconds ..... %2.3f", (time - START_TIME) / 1000.0), x + 200, y + 50);
     }
 
-
-//    private void move() {
-//        try {
-//            for (int i = 0; i < 100; i += 1) {
-//                f.move(2, 0);
-//                repaint();
-//                Thread.sleep(200);
-//            }
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     private void circleMove() {
         try {
@@ -269,10 +224,14 @@ public class Main extends JPanel {
 
 
                 time = System.currentTimeMillis();
-                sun.move((time - oldTime)/1000.0*TIME_SPEED);
+                double ttime= (time - oldTime) / 1000.0 * TIME_SPEED;
+
+                since += ttime;
+
+                sun.move(ttime);
 
 //                planets.calcPositions(SCREEN_CENTER);
-               // asteroids.calcPositions(SCREEN_CENTER);
+                // asteroids.calcPositions(SCREEN_CENTER);
 
                 repaint();
                 Thread.sleep((long) (1000 * RATE));

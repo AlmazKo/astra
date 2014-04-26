@@ -15,27 +15,32 @@ public class Data {
 ////        Subject sun = new Subject(1392e+6);
         sun.meta.color = new Color(0xFEE640);
         sun.meta.name = "Sun";
+        sun.meta.type = SubjectType.STAR;
 
 
         Subject mercury = new Subject(2439e+3, 87.97 * 86_400, new PolarCoordinate(0, 58e+9));
         mercury.meta.name = "Mercury";
+        mercury.meta.type = SubjectType.PLANET;
         mercury.meta.period = 115;
         mercury.meta.color = new Color(0xFEC07D);
         sun.add(mercury);
 
-        Subject venus = new Subject(6051e+3, 224.7*86_400, new PolarCoordinate(0, 108e+9));
+        Subject venus = new Subject(6051e+3, 224.7 * 86_400, new PolarCoordinate(0, 108e+9));
         venus.meta.name = "Venus";
+        venus.meta.type = SubjectType.PLANET;
         venus.meta.period = 224;
         venus.meta.color = new Color(0x919D34);
         sun.add(venus);
 //
         Subject earth = new Subject(6371e+3, 365.0 * 86_400, new PolarCoordinate(0, 149e+9));
         earth.meta.name = "Earth";
+        earth.meta.type = SubjectType.PLANET;
         earth.meta.period = 365;
         earth.meta.color = new Color(0x15ABFF);
 
-        Subject moon = new Subject(1738e+3, 29.5  * 86_400, new PolarCoordinate(0, 384e+6));
+        Subject moon = new Subject(1738e+3, 29.5 * 86_400, new PolarCoordinate(0, 384e+6));
         moon.meta.name = "Moon";
+        moon.meta.type = SubjectType.MOON;
         moon.meta.period = 29;
         moon.meta.color = new Color(0xE9E4EA);
         earth.add(moon);
@@ -43,12 +48,14 @@ public class Data {
 
         Subject mars = new Subject(4439e+3, 779.0 * 86_400, new PolarCoordinate(0, 200e+9));
         mars.meta.name = "Mars";
+        mars.meta.type = SubjectType.PLANET;
         mars.meta.color = new Color(0xffff0000);
         mars.meta.period = 779;
         sun.add(mars);
 //
         Subject jupiter = new Subject(69_911e+3, 4332.6 * 86_400, new PolarCoordinate(0, 770e+9));
         jupiter.meta.name = "Jupiter";
+        jupiter.meta.type = SubjectType.PLANET;
         jupiter.meta.period = 4_332;
         jupiter.meta.color = new Color(0x900000);
         sun.add(jupiter);
@@ -88,20 +95,25 @@ public class Data {
 //
 //
 //        asteroids.calcPositions(SCREEN_CENTER);
-//        double size;
-//        double speed;
-//        int radius;
+        double size;
+        double rate;
+        double radius;
+        double angle;
+        PolarCoordinate p;
+        Subject aster;
 //
-//        for (int i = 0; i < 2000; i++) {
-//
-//            size = Math.random() * Math.random() * 1.1;
-//            speed = 10 + Math.random();
-//            radius = (int) Math.round(140 + Math.random() * 60 * Math.random() *(Math.random()-0.5));
-//
-//            Subject aster = new Subject(size, speed, radius, new Color(0xDADDD8));
-//            aster.angle = Math.random() *Math.PI * 2;
-//            asteroids.add(0, aster);
-//        }
+        for (int i = 0; i < 2000; i++) {
+
+            size = 2000e+3 * Math.random() * Math.random();
+            rate = (800 + Math.random() * 100) * 86_400;
+            radius = 400e9 + Math.random() * Math.random() * 60e9 * (Math.random() - 0.5);
+
+            angle = Math.random() * Math.PI * 2;
+
+            aster = new Subject(size, rate, new PolarCoordinate(angle, radius));
+            aster.meta.type = SubjectType.ASTEROID;
+            sun.add(aster);
+        }
 
         return sun;
     }
