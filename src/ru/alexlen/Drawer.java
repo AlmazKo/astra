@@ -33,7 +33,7 @@ public class Drawer {
         scale = value;
         sizeScale = value * 20;
         radiusScale = value * 0.1;
-        radiusMoonScale = radiusScale * 10;
+        radiusMoonScale = sizeScale;
     }
 
 
