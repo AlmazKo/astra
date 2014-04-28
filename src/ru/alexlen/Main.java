@@ -61,7 +61,7 @@ public class Main extends JPanel {
 
         InputStream myFont;
         try {
-            myFont = Main.class.getResourceAsStream("/font/Roboto-Black.ttf");
+            myFont = Main.class.getResourceAsStream("/font/Jura-DemiBold.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
             titleFont = titleFont.deriveFont(16f);
         } catch (FontFormatException e) {
@@ -72,9 +72,9 @@ public class Main extends JPanel {
 
 
         try {
-            myFont = Main.class.getResourceAsStream("/font/Roboto-Regular.ttf");
+            myFont = Main.class.getResourceAsStream("/font/Jura-DemiBold.ttf");
             mainFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
-            mainFont = mainFont.deriveFont(12f);
+            mainFont = mainFont.deriveFont(13f);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -126,16 +126,16 @@ public class Main extends JPanel {
         if (s != null) {
             Meta meta = s.meta;
 
-            g.drawString(String.format("Name ............... %s", meta.name), x, y + 20);
+            g.drawString(String.format("Name ................ %s", meta.name), x, y + 20);
             g.drawString(String.format("Type ................. %s", meta.type), x, y + 35);
             g.drawString(String.format("Period .............. %dd", meta.period), x, y + 50);
-            g.drawString(String.format("Оборотов ....... %d ", s.cnt), x, y + 65);
+            g.drawString(String.format("Turns .............. %d ", s.cnt), x, y + 65);
             g.drawString(String.format("Angle ............... %1.6f ", s.p.angle), x, y + 80);
 
         }
 
-        g.drawString(String.format("Since ........... %3.1f days", since / 86400.0), x + 200, y + 20);
-        g.drawString(String.format("Work ............ %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
+        g.drawString(String.format("Since ............. %3.1f days", since / 86400.0), x + 200, y + 20);
+        g.drawString(String.format("Work ............. %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
         g.drawString(String.format("Seconds ..... %2.3f", (time - START_TIME) / 1000.0), x + 200, y + 50);
     }
 
