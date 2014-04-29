@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import static java.lang.Math.PI;
@@ -45,11 +46,26 @@ public class Main extends JPanel {
     }
 
     void createWindow() {
+        URL iconUrl = Main.class.getResource("/img/sun.png");
+        ImageIcon icon = new ImageIcon(iconUrl);
+
+        JMenu menu;
+        JMenuItem menuItem;
+
+        JMenuBar menuBar = new JMenuBar();
+        menu = new JMenu("Main");
+        menuBar.add(menu);
+
+        menuItem = new JMenuItem("About");
+        menu.add(menuItem);
+
         JFrame frame = new JFrame();
+        frame.setJMenuBar(menuBar);
         frame.setLocation(100, 10);
         frame.setTitle("Polaris");
         frame.setMinimumSize(new Dimension(1200, 700));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setIconImage(icon.getImage());
         frame.getContentPane().add(this);
         setBackground(new Color(0x0E0E0E));
 
@@ -205,7 +221,6 @@ public class Main extends JPanel {
         earth.add(ship2);
         earth.add(ship3);
         earth.add(ship4);
-
 
 
         Ship nasaMoon = new Ship(5, 50 * 60, new PolarCoordinate(0, 200e+3), nasa);
