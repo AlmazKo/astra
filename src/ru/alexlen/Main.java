@@ -77,7 +77,7 @@ public class Main extends JPanel {
 
         InputStream myFont;
         try {
-            myFont = Main.class.getResourceAsStream("/font/Jura-DemiBold.ttf");
+            myFont = Main.class.getResourceAsStream("/font/CaviarDreams.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
             titleFont = titleFont.deriveFont(16f);
         } catch (FontFormatException e) {
@@ -88,9 +88,9 @@ public class Main extends JPanel {
 
 
         try {
-            myFont = Main.class.getResourceAsStream("/font/Jura-DemiBold.ttf");
+            myFont = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
             mainFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
-            mainFont = mainFont.deriveFont(13f);
+            mainFont = mainFont.deriveFont(14f);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -130,7 +130,7 @@ public class Main extends JPanel {
 
 
         final int x = 10;
-        final int y = 585;
+        final int y = 560;
 
 
         g.setColor(new Color(0x8DFFFD));
