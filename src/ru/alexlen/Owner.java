@@ -1,6 +1,7 @@
 package ru.alexlen;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * Created by almazko on 26.04.14.
@@ -10,7 +11,7 @@ public class Owner {
     boolean isPlayer;
     String name;
     Color color;
-
+    public ArrayList<Building> buildings = new ArrayList<>(0);
 
     private Owner(boolean isPlayer, String name, Color color) {
         this.isPlayer = isPlayer;
@@ -26,4 +27,7 @@ public class Owner {
     static Owner createPlayer(final String name, Color color) {
         return new Owner(true, name, color);
     }
+
+
+
 }

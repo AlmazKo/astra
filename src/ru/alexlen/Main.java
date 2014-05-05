@@ -1,7 +1,13 @@
 package ru.alexlen;
 
+import ru.alexlen.build.RocketFactory;
+import ru.alexlen.build.Spaceport;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -33,6 +39,7 @@ public class Main extends JPanel {
     Drawer drawer = new Drawer();
 
     ArrayList<Owner> players = new ArrayList<>();
+    private Owner player;
 
     public Main() {
         system = Data.populate();
@@ -100,8 +107,8 @@ public class Main extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        Graphics2D graphics2D = (Graphics2D) g;
-        graphics2D.setRenderingHint(
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(
                 RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -110,9 +117,42 @@ public class Main extends JPanel {
         //applyQualityRenderingHints(graphics2D);
 
 
-        drawer.draw(graphics2D);
-        showInfo(graphics2D, SELECTED_SUBJECT);
+        drawer.draw(g2);
+        showInfo(g2, SELECTED_SUBJECT);
 
+
+        drawBuildings(g2);
+    }
+
+
+    public void drawBuildings(Graphics2D g) {
+
+        BufferedImage bimg;
+
+        ImageObserver io = new ImageObserver() {
+            @Override
+            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                return false;
+            }
+        };
+
+        Color border = new Color(0x8DFFFD);
+
+        int offset = 2;
+        g.setColor(new Color(0x8DFFFD));
+        for (Building building : player.buildings) {
+
+            try {
+                bimg = ImageIO.read(building.getImage());
+                g.drawImage(bimg, 2, offset, io);
+                g.drawRect(2, offset, 50, 50);
+                offset += 53;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
     }
 
     public static void applyQualityRenderingHints(Graphics2D g2d) {
@@ -201,7 +241,7 @@ public class Main extends JPanel {
 
     void game() {
 
-        Owner player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
+        player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
         Owner nasa = Owner.createPlayer("NASA", new Color(0x15F5FF));
         players.add(player);
         players.add(nasa);
@@ -231,6 +271,9 @@ public class Main extends JPanel {
 
         moon.add(nasaMoon);
 
+
+        player.buildings.add(new Spaceport());
+        player.buildings.add(new RocketFactory());
     }
 
 }
