@@ -31,8 +31,8 @@ public class Drawer {
 
     void setScale(double value) {
         scale = value;
-        sizeScale = value * 20;
-        radiusScale = value * 0.1;
+        sizeScale = value;
+        radiusScale = value ;
         radiusMoonScale = sizeScale;
     }
 
@@ -93,7 +93,7 @@ public class Drawer {
         }
 
 
-        final double sSize = subject.size * sizeScale;
+        final double sSize = subject.size * sizeScale * subject.meta.scale;
         final int x = (int) (sgc.x - sSize);
         final int y = (int) (sgc.y - sSize);
         double diameter = 2 * sSize;
@@ -159,25 +159,46 @@ public class Drawer {
                 (int) (2 * radius), (int) (2 * radius));
     }
 
-    Coordinate calcRelativePosition(Subject subject) {
+    Coordinate calcRelativePosition(final Subject subject) {
+
+        Coordinate abs = calcAbsPosition(subject);
+
+        if (abs.x == 0) {
+            return abs;
+        }
+        final double scale = getRadiusScale(subject);
+
+        return new Coordinate(abs.x * scale, abs.y * scale);
+    }
+
+
+    double getRadiusScale(final Subject subject) {
+
+
+
         double currentScale = radiusScale;
         if (subject.meta.type == SubjectType.MOON) {
             currentScale = radiusMoonScale;
         }
 
+        if (subject.meta.type == SubjectType.SHIP) {
+            currentScale = radiusMoonScale;
+        }
+
+        return currentScale;
+    }
+
+
+    static Coordinate calcAbsPosition(Subject subject) {
+
         double gx, gy;
 
         if (subject.meta.type == SubjectType.SHIP) {
-            currentScale = radiusMoonScale * 30;
-
-            gx = (subject.parent.size + subject.p.radius) * cos(subject.p.angle) * currentScale;
-            gy = (subject.parent.size + subject.p.radius) * sin(subject.p.angle) * currentScale;
-
+            gx = (subject.parent.size + subject.p.radius) * cos(subject.p.angle);
+            gy = (subject.parent.size + subject.p.radius) * sin(subject.p.angle);
         } else {
-
-            gx = subject.p.radius * cos(subject.p.angle) * currentScale;
-            gy = subject.p.radius * sin(subject.p.angle) * currentScale;
-
+            gx = subject.p.radius * cos(subject.p.angle);
+            gy = subject.p.radius * sin(subject.p.angle);
         }
 
         return new Coordinate(gx, gy);

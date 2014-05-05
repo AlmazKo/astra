@@ -10,6 +10,7 @@ public class Meta {
     String name;
     int period = 0;
     Map<Resource, Double> composition;
+    float scale = 1;
     Color color = new Color(0xffffffff);
     final static String NO_NAME= "No name";
 

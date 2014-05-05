@@ -214,7 +214,7 @@ public class Main extends JPanel {
         ship2.meta.name = "Viking 2012";
         Ship ship3 = new Ship(8, 110 * 60, new PolarCoordinate(PI / 3 * 4, 320e+3), player);
         ship3.meta.name = "Vostok-4";
-        Ship ship4 = new Ship(9, 200 * 60, new PolarCoordinate(PI / 3, 330e+3), player);
+        Ship ship4 = new Ship(9, 200 * 60, new PolarCoordinate(PI / 3, 36000e+3), player);
         ship4.meta.name = "Space invader II";
 
         earth.add(ship1);

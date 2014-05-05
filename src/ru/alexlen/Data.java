@@ -11,11 +11,11 @@ public class Data {
     static Subject populate() {
         ArrayList<Subject> data = new ArrayList<>();
 
-        Subject sun = new Subject(2392e+4);
-////        Subject system = new Subject(1392e+6);
+        Subject sun = new Subject(1392e+6);
         sun.meta.color = new Color(0xFEE640);
         sun.meta.name = "Sun";
         sun.meta.type = SubjectType.STAR;
+        sun.meta.scale = 0.5f;
 
 
         Subject mercury = new Subject(2439e+3, 87.97 * 86_400, new PolarCoordinate(0, 58e+9));
@@ -31,8 +31,8 @@ public class Data {
         venus.meta.period = 224;
         venus.meta.color = new Color(0x919D34);
         sun.add(venus);
-//
-        Subject earth = new Subject(6371e+3, 365.0 * 86_400, new PolarCoordinate(0, 149e+9));
+
+        Subject earth = new Subject(6051e+3, 365.0 * 86_400, new PolarCoordinate(0, 149e+9));
         earth.meta.name = "Earth";
         earth.meta.type = SubjectType.PLANET;
         earth.meta.period = 365;
@@ -52,38 +52,42 @@ public class Data {
         mars.meta.color = new Color(0xffff0000);
         mars.meta.period = 779;
         sun.add(mars);
-//
+
         Subject jupiter = new Subject(69_911e+3, 4332.6 * 86_400, new PolarCoordinate(0, 770e+9));
         jupiter.meta.name = "Jupiter";
         jupiter.meta.type = SubjectType.PLANET;
         jupiter.meta.period = 4_332;
         jupiter.meta.color = new Color(0x900000);
+        jupiter.meta.scale = 1;
         sun.add(jupiter);
 
         Subject io = new Subject(1821e+3, 42.5 * 3600, new PolarCoordinate(0, 421e+6));
         io.meta.name = "Io";
         io.meta.type = SubjectType.MOON;
         io.meta.color = new Color(0xD2CE1E);
+        io.meta.scale = 2;
         jupiter.add(io);
 
         Subject europa = new Subject(1560e+3, 3.551 * 86400, new PolarCoordinate(0, 671e+6));
         europa.meta.name = "Europa";
         europa.meta.type = SubjectType.MOON;
         europa.meta.color = new Color(0xDBAEAD);
+        europa.meta.scale = 2;
         jupiter.add(europa);
 
         Subject ganymede = new Subject(2634e+3, 7.1 * 86400, new PolarCoordinate(0, 1070e+6));
         ganymede.meta.name = "Ganymede";
         ganymede.meta.type = SubjectType.MOON;
         ganymede.meta.color = new Color(0xC6B4B3);
+        ganymede.meta.scale = 2;
         jupiter.add(ganymede);
 
         Subject callisto = new Subject(2410e+3, 16.7 * 86400, new PolarCoordinate(0, 1882e+6));
         callisto.meta.name = "Callisto";
         callisto.meta.type = SubjectType.MOON;
         callisto.meta.color = new Color(0xB4A891);
+        callisto.meta.scale = 2;
         jupiter.add(callisto);
-
 
 //
 //        Subject saturn = new Subject(13, 148, 450, new Color(0xFFEB13));
