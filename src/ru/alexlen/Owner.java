@@ -13,6 +13,9 @@ public class Owner {
     Color color;
     public ArrayList<Building> buildings = new ArrayList<>(0);
 
+    // ~= 1000$
+    long credit;
+
     private Owner(boolean isPlayer, String name, Color color) {
         this.isPlayer = isPlayer;
         this.name = name;

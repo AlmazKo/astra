@@ -1,8 +1,5 @@
 package ru.alexlen;
 
-import ru.alexlen.build.RocketFactory;
-import ru.alexlen.build.Spaceport;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +8,6 @@ import java.awt.image.ImageObserver;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
-
-import static java.lang.Math.PI;
 
 public class Main extends JPanel {
 
@@ -38,12 +32,12 @@ public class Main extends JPanel {
     Font mainFont;
     Drawer drawer = new Drawer();
 
-    ArrayList<Owner> players = new ArrayList<>();
-    private Owner player;
+    final Game game;
+
 
     public Main() {
         system = Data.populate();
-        game();
+         game = new Game(system);
 
         createFonts();
         createWindow();
@@ -84,7 +78,7 @@ public class Main extends JPanel {
 
         InputStream myFont;
         try {
-            myFont = Main.class.getResourceAsStream("/font/CaviarDreams.ttf");
+            myFont = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
             titleFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
             titleFont = titleFont.deriveFont(16f);
         } catch (FontFormatException e) {
@@ -137,15 +131,27 @@ public class Main extends JPanel {
         };
 
         Color border = new Color(0x8DFFFD);
+        Color bborder = new Color(0xFF32F2);
 
         int offset = 2;
-        g.setColor(new Color(0x8DFFFD));
-        for (Building building : player.buildings) {
+        g.setColor(border);
+        g.setBackground(bborder);
+        for (Building building : game.player.buildings) {
 
+            int process;
             try {
                 bimg = ImageIO.read(building.getImage());
                 g.drawImage(bimg, 2, offset, io);
+                g.setColor(border);
                 g.drawRect(2, offset, 50, 50);
+
+
+                if (building.isConstructing()) {
+                    g.setColor(bborder);
+                    process = (int) (50 * building.getBuildPercent());
+                    g.fillRect(3, offset + 45, process, 5);
+                }
+
                 offset += 53;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -221,6 +227,9 @@ public class Main extends JPanel {
                 since += timeOffset;
 
                 system.move(timeOffset);
+                for (Building building : game.getConstructingBuildings()) {
+                    building.process((long) timeOffset);
+                }
 
                 repaint();
                 Thread.sleep((long) (1000 * RATE));
@@ -237,43 +246,4 @@ public class Main extends JPanel {
 
         m.circleMove();
     }
-
-
-    void game() {
-
-        player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
-        Owner nasa = Owner.createPlayer("NASA", new Color(0x15F5FF));
-        players.add(player);
-        players.add(nasa);
-
-        Subject earth = system.children.get(2);
-
-        Ship ship1 = new Ship(5, 90 * 60, new PolarCoordinate(PI / 2, 300e+3), player);
-        ship1.meta.name = "Space invader I";
-        Ship ship2 = new Ship(3, 100 * 60, new PolarCoordinate(0, 310e+3), player);
-        ship2.meta.name = "Viking 2012";
-        Ship ship3 = new Ship(8, 110 * 60, new PolarCoordinate(PI / 3 * 4, 320e+3), player);
-        ship3.meta.name = "Vostok-4";
-        Ship ship4 = new Ship(9, 200 * 60, new PolarCoordinate(PI / 3, 36000e+3), player);
-        ship4.meta.name = "Space invader II";
-
-        earth.add(ship1);
-        earth.add(ship2);
-        earth.add(ship3);
-        earth.add(ship4);
-
-
-        Ship nasaMoon = new Ship(5, 50 * 60, new PolarCoordinate(0, 200e+3), nasa);
-        ship1.meta.name = "Moon orbiter";
-
-
-        Subject moon = earth.children.get(0);
-
-        moon.add(nasaMoon);
-
-
-        player.buildings.add(new Spaceport());
-        player.buildings.add(new RocketFactory());
-    }
-
 }
