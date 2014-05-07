@@ -12,7 +12,7 @@ public abstract class AbstractBuilding implements Building {
     long build_time;
 
 
-    public float getBuildPercent() {
+    public float getProcessStatus() {
         if (isComplete) return 100f;
         if (process == 0) return 0;
         return process / (build_time * 1.0f);

@@ -111,9 +111,9 @@ public class Drawer {
             diameter = 1;
         }
 
-        if (subject == Main.SELECTED_SUBJECT) {
-            drawSelected(x, y, diameter, diameter);
-        }
+//        if (subject == Main.SELECTED_SUBJECT) {
+//            drawSelected(x, y, diameter, diameter);
+//        }
 
         g.setStroke(new BasicStroke());
         g.setColor(subject.meta.color);

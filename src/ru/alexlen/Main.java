@@ -146,10 +146,12 @@ public class Main extends JPanel {
                 g.drawRect(2, offset, 50, 50);
 
 
+                g.drawString(building.getName(), 57, offset + 28);
                 if (building.isConstructing()) {
                     g.setColor(bborder);
-                    process = (int) (50 * building.getBuildPercent());
+                    process = (int) (50 * building.getProcessStatus());
                     g.fillRect(3, offset + 45, process, 5);
+                    g.drawString("build ... ", 57, offset + 40);
                 }
 
                 offset += 53;
