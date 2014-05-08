@@ -98,7 +98,7 @@ public class Drawer {
         final int y = (int) (sgc.y - sSize);
         double diameter = 2 * sSize;
 
-        if (diameter < 0.5) {
+        if (diameter < 0.005) {
 
             if (subject == Main.SELECTED_SUBJECT) {
                 drawSelected(x, y, diameter, diameter);

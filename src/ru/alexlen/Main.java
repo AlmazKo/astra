@@ -27,9 +27,12 @@ public class Main extends JPanel {
 
     static Subject system;
 
+    static boolean debug = true;
+
     double since = 0;
     Font titleFont;
     Font mainFont;
+    Font miniFont;
     Drawer drawer = new Drawer();
 
     final Game game;
@@ -76,25 +79,30 @@ public class Main extends JPanel {
 
     void createFonts() {
 
-        InputStream myFont;
+        InputStream fontStream;
         try {
-            myFont = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
-            titleFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
-            titleFont = titleFont.deriveFont(16f);
-        } catch (FontFormatException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
+            titleFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+            titleFont = titleFont.deriveFont(18f);
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
 
 
         try {
-            myFont = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
-            mainFont = Font.createFont(Font.TRUETYPE_FONT, myFont);
-            mainFont = mainFont.deriveFont(14f);
-        } catch (FontFormatException e) {
+            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
+            mainFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+            mainFont = mainFont.deriveFont(16f);
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+
+
+        try {
+            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
+            miniFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+            miniFont = miniFont.deriveFont(12f);
+        } catch (FontFormatException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -151,7 +159,9 @@ public class Main extends JPanel {
                     g.setColor(bborder);
                     process = (int) (50 * building.getProcessStatus());
                     g.fillRect(3, offset + 45, process, 5);
+                    g.setFont(miniFont);
                     g.drawString("build ... ", 57, offset + 40);
+                    g.setFont(mainFont);
                 }
 
                 offset += 53;
@@ -199,8 +209,12 @@ public class Main extends JPanel {
         }
 
         g.drawString(String.format("Since ............. %3.1f days", since / 86400.0), x + 200, y + 20);
-        g.drawString(String.format("Work ............. %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
-        g.drawString(String.format("Seconds ..... %2.3f", (time - START_TIME) / 1000.0), x + 200, y + 50);
+
+
+        if (debug) {
+                g.drawString(String.format("Work ............. %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
+                g.drawString(String.format("Seconds ..... %2.3f", (time - START_TIME) / 1000.0), x + 200, y + 50);
+        }
     }
 
 
