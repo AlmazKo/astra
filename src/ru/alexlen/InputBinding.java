@@ -1,7 +1,8 @@
 package ru.alexlen;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+
 import static  ru.alexlen.Main.*;
 
 
@@ -16,6 +17,60 @@ public class InputBinding {
 
     }
 
+
+    static void bindMouseEvents(Drawer drawer, Component component) {
+
+
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+
+            public void mouseClicked(MouseEvent evt) {
+
+
+
+                if ((evt.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
+//                    source.setText(source.getText() + "nLeft mouse button clicked on point [" + evt.getPoint().x + "," + evt.getPoint().y + "]");
+                }
+
+                if ((evt.getModifiers() & InputEvent.BUTTON2_MASK) != 0) {
+                }
+
+                if ((evt.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
+                }
+            }
+
+            public void mouseWheelMoved(MouseWheelEvent e){
+                int x =1;
+                if (e.getScrollAmount() > 0) {
+                     x =1;
+                }
+
+            }
+        };
+
+
+        MouseWheelListener listener = new MouseWheelListener() {
+            int colorCounter;
+
+            private static final int UP = 1;
+
+            private static final int DOWN = 2;
+
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                int count = e.getWheelRotation();
+                int direction = (Math.abs(count) > 0) ? UP : DOWN;
+            }
+
+
+        };
+
+
+
+
+
+
+        component.addMouseWheelListener(listener);
+        component.addMouseListener(mouseAdapter);
+    }
 
     static void bindKeys(Drawer drawer) {
 

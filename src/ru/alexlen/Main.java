@@ -3,6 +3,9 @@ package ru.alexlen;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
@@ -46,7 +49,7 @@ public class Main extends JPanel {
         createWindow();
         drawer.setScale(5e-9);
 
-        InputBinding.bindKeys(drawer);
+
     }
 
     void createWindow() {
@@ -75,6 +78,10 @@ public class Main extends JPanel {
 
         frame.pack();
         frame.setVisible(true);
+
+
+        InputBinding.bindKeys(drawer);
+        InputBinding.bindMouseEvents(drawer, frame);
     }
 
     void createFonts() {
@@ -131,12 +138,7 @@ public class Main extends JPanel {
 
         BufferedImage bimg;
 
-        ImageObserver io = new ImageObserver() {
-            @Override
-            public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-                return false;
-            }
-        };
+        ImageObserver io = (img, infoflags, x, y, width, height) -> false;
 
         Color border = new Color(0x8DFFFD);
         Color bborder = new Color(0xFF32F2);
