@@ -212,8 +212,9 @@ public class Main extends JPanel {
 
 
         if (debug) {
-                g.drawString(String.format("Work ............. %2d ms", System.currentTimeMillis() - time), x + 200, y + 35);
-                g.drawString(String.format("Seconds ..... %2.3f", (time - START_TIME) / 1000.0), x + 200, y + 50);
+            setFont(miniFont);
+                g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
+                g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
         }
     }
 
