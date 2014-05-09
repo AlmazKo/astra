@@ -87,11 +87,11 @@ public class InputBinding {
                         break;
 
                     case 91:
-                        TIME_SPEED *= 0.1;
+                        TIME_SPEED *= 0.9;
                         break;
 
                     case 93:
-                        TIME_SPEED /= 0.1;
+                        TIME_SPEED *= 1.1;
                         break;
 
 

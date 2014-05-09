@@ -18,11 +18,13 @@ public class Main extends JPanel {
     final public static int BLINKED_TIMEOUT = 400;
     final public static int FAST_BLINKED_TIMEOUT = 100;
     final public static long START_TIME = System.currentTimeMillis();
+    public final static double BASE_TIME_SPEED = 86_400;
 
     public static long time = START_TIME;
     public static long lastBlinkedTime = START_TIME;
     public static long lastFastBlinkedTime = START_TIME;
-    public static double TIME_SPEED = 86400;
+    public static double TIME_SPEED = BASE_TIME_SPEED;
+
     public static boolean isBlinked = true;
     public static boolean isFastBlinked = true;
     static Subject SELECTED_SUBJECT;
@@ -211,7 +213,7 @@ public class Main extends JPanel {
 
         }
 
-        g.drawString(String.format("Since ............. %3.1f days", since / 86400.0), x + 200, y + 20);
+        g.drawString(String.format("Since ............. %3.1f days", since / BASE_TIME_SPEED), x + 200, y + 20);
 
 
         if (debug) {
@@ -219,6 +221,7 @@ public class Main extends JPanel {
             g.setColor(debugFont);
                 g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
                 g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
+                g.drawString(String.format("%2.1f days/second", TIME_SPEED / 86_400), 650, 15);
             g.setFont(mainFont);
         }
     }
