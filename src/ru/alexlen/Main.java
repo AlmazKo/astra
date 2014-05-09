@@ -46,7 +46,7 @@ public class Main extends JPanel {
 
     public Main() {
         system = Data.populate();
-         game = new Game(system);
+        game = new Game(system);
 
         createFonts();
         createWindow();
@@ -219,9 +219,10 @@ public class Main extends JPanel {
         if (debug) {
             g.setFont(miniFont);
             g.setColor(debugFont);
-                g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
-                g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
-                g.drawString(String.format("%2.1f days/second", TIME_SPEED / 86_400), 650, 15);
+            g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
+            g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
+            g.drawString(String.format("%2.1f days/second", TIME_SPEED / 86_400), 650, 15);
+            g.drawString(String.format("%2.1f FPS", 1 / RATE), 780, 15);
             g.setFont(mainFont);
         }
     }
