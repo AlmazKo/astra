@@ -31,6 +31,7 @@ public class Main extends JPanel {
     static Subject system;
 
     static boolean debug = true;
+    final static Color debugFont = new Color(0x989898);
 
     double since = 0;
     Font titleFont;
@@ -147,7 +148,7 @@ public class Main extends JPanel {
         g.setColor(border);
         g.setBackground(bborder);
         for (Building building : game.player.buildings) {
-
+            setFont(mainFont);
             int process;
             try {
                 bimg = ImageIO.read(building.getImage());
@@ -214,9 +215,11 @@ public class Main extends JPanel {
 
 
         if (debug) {
-            setFont(miniFont);
+            g.setFont(miniFont);
+            g.setColor(debugFont);
                 g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
                 g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
+            g.setFont(mainFont);
         }
     }
 
