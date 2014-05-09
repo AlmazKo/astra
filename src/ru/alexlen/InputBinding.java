@@ -62,6 +62,10 @@ public class InputBinding {
             if (e.getID() == KeyEvent.KEY_PRESSED) {
 
                 switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ESCAPE:
+                        SELECTED_SUBJECT = null;
+                        break;
+
                     case KeyEvent.VK_RIGHT:
                         Drawer.GCENTER.x -= 10;
                         break;
