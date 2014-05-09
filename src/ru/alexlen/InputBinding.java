@@ -3,8 +3,7 @@ package ru.alexlen;
 import java.awt.*;
 import java.awt.event.*;
 
-import static  ru.alexlen.Main.*;
-
+import static ru.alexlen.Main.*;
 
 
 /**
@@ -26,7 +25,6 @@ public class InputBinding {
             public void mouseClicked(MouseEvent evt) {
 
 
-
                 if ((evt.getModifiers() & InputEvent.BUTTON1_MASK) != 0) {
 //                    source.setText(source.getText() + "nLeft mouse button clicked on point [" + evt.getPoint().x + "," + evt.getPoint().y + "]");
                 }
@@ -37,35 +35,17 @@ public class InputBinding {
                 if ((evt.getModifiers() & InputEvent.BUTTON3_MASK) != 0) {
                 }
             }
-
-            public void mouseWheelMoved(MouseWheelEvent e){
-                int x =1;
-                if (e.getScrollAmount() > 0) {
-                     x =1;
-                }
-
-            }
         };
 
 
-        MouseWheelListener listener = new MouseWheelListener() {
-            int colorCounter;
-
-            private static final int UP = 1;
-
-            private static final int DOWN = 2;
-
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                int count = e.getWheelRotation();
-                int direction = (Math.abs(count) > 0) ? UP : DOWN;
+        MouseWheelListener listener = e -> {
+            if (e.getWheelRotation() > 0) {
+                drawer.setScale(drawer.scale * 0.9);
+            } else {
+                drawer.setScale(drawer.scale * 1.1);
             }
 
-
         };
-
-
-
-
 
 
         component.addMouseWheelListener(listener);
