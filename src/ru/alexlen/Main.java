@@ -28,7 +28,7 @@ public class Main extends JPanel {
     public static boolean isBlinked = true;
     public static boolean isFastBlinked = true;
     static Subject SELECTED_SUBJECT;
-    static int SELECTED_INDEX;
+    static int wwwwq;
 
     static Subject system;
 
@@ -165,7 +165,7 @@ public class Main extends JPanel {
                     process = (int) (50 * building.getProcessStatus());
                     g.fillRect(3, offset + 45, process, 5);
                     g.setFont(miniFont);
-                    g.drawString("build ... ", 57, offset + 40);
+                    g.drawString("building ... ", 57, offset + 40);
                     g.setFont(mainFont);
                 }
 
@@ -192,12 +192,12 @@ public class Main extends JPanel {
     void showInfo(Graphics2D g, Subject s) {
 
 
-        final int x = 10;
+        final int x = 320;
         final int y = 560;
 
 
         g.setColor(new Color(0x8DFFFD));
-        g.drawLine(0, y, y, y);
+        g.drawLine(0, y, 1200, y);
 
 
         setFont(mainFont);
@@ -205,11 +205,6 @@ public class Main extends JPanel {
         if (s != null) {
             Meta meta = s.meta;
 
-            g.drawString(String.format("Name ................ %s", meta.name), x, y + 20);
-            g.drawString(String.format("Type ................. %s", meta.type), x, y + 35);
-            g.drawString(String.format("Period .............. %dd", meta.period), x, y + 50);
-            g.drawString(String.format("Turns .............. %d ", s.cnt), x, y + 65);
-            g.drawString(String.format("Angle ............... %1.6f ", s.p.angle), x, y + 80);
 
             if (s.meta.image != null) {
                 BufferedImage bimg;
@@ -222,17 +217,31 @@ public class Main extends JPanel {
                 };
 
                 try {
-                    bimg = ImageIO.read(s.meta.image);
+                    final int base = 128;
+                    bimg = ImageIO.read(meta.image);
+                    int width = base;
+                    int left;
+
                     if (bimg.getWidth() > bimg.getHeight()) {
                         double scale = bimg.getWidth() * 1.0 / bimg.getHeight();
-                        g.drawImage(bimg, 2, 563, (int) (100 * scale), 100, io);
+                        width = (int) (base * scale);
+                        left = (int) (160 - width / 2.0f);
                     } else {
-                        g.drawImage(bimg, 2, 563, 100, 100, io);
+                        left = 160 - base / 2;
                     }
+
+                    g.drawImage(bimg, left, 540, width, base, io);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+
+                g.drawString(String.format("Name ................ %s", meta.name), x, y + 20);
+                g.drawString(String.format("Type ................. %s", meta.type), x, y + 35);
+                g.drawString(String.format("Period .............. %dd", meta.period), x, y + 50);
+                g.drawString(String.format("Turns .............. %d ", s.cnt), x, y + 65);
+                g.drawString(String.format("Angle ............... %1.6f ", s.p.angle), x, y + 80);
 
             }
 
