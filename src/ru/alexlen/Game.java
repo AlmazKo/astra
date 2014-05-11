@@ -6,6 +6,7 @@ import ru.alexlen.building.Spaceport;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import static java.lang.Math.PI;
 
@@ -18,7 +19,12 @@ public class Game {
     Owner player;
     Subject system;
 
+    static LinkedHashMap<String, Building> availableBuildings = new LinkedHashMap<>();
+
     Game(Subject system) {
+
+        initBuildings();
+
         player = Owner.createPlayer("Almazko", new Color(0xFF3EED));
         Owner nasa = Owner.createPlayer("NASA", new Color(0x15F5FF));
         players.add(player);
@@ -70,6 +76,19 @@ public class Game {
         ArrayList<Building> result = new ArrayList<>(0);
         player.buildings.stream().filter(Building::isConstructing).forEach(result::add);
         return result;
+    }
+
+
+
+    private void initBuildings() {
+        availableBuildings.put("antenna", new Antenna());
+        availableBuildings.put("rocket_factory", new RocketFactory());
+        availableBuildings.put("spaceport", new Spaceport());
+        availableBuildings.put("spaceport1", new Spaceport());
+        availableBuildings.put("spaceport2", new Spaceport());
+        availableBuildings.put("spaceport3", new Spaceport());
+        availableBuildings.put("spaceport4", new Spaceport());
+        availableBuildings.put("spaceport5", new Spaceport());
     }
 
 }

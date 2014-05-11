@@ -3,13 +3,9 @@ package ru.alexlen;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
 public class Main extends JPanel {
@@ -44,6 +40,7 @@ public class Main extends JPanel {
 
     Color border = new Color(0x8DFFFD);
     Color shadow = new Color(0x88000000, true);
+    Color border2 = new Color(0x666666);
 
     final Game game;
 
@@ -93,11 +90,11 @@ public class Main extends JPanel {
 
     void createFonts() {
 
-        FontStyle.Builder builder =  new FontStyle.Builder();
+        FontStyle.Builder builder = new FontStyle.Builder();
 
         titleFont = builder.setFont("JuraMedium.ttf").setSize(16).setColor(new Color(0xFFFFFF)).build();
         mainFont = builder.setFont("JuraMedium.ttf").setSize(14).setColor(new Color(0xFFFFFF)).build();
-        miniFont = builder.setFont("JuraLight.ttf").setSize(12).setColor(new Color(0xFFFFFF)).build();
+        miniFont = builder.setFont("JuraLight.ttf").setSize(13).setColor(new Color(0xFFFFFF)).build();
     }
 
     @Override
@@ -117,6 +114,7 @@ public class Main extends JPanel {
 
 
         drawBuildings(g2);
+        drawAvailableActions(g2);
     }
 
 
@@ -155,6 +153,55 @@ public class Main extends JPanel {
             }
 
 
+        }
+    }
+
+    public static BufferedImage convertToGrayScale(BufferedImage image) {
+        BufferedImage result = new BufferedImage(
+                image.getWidth(),
+                image.getHeight(),
+                BufferedImage.TYPE_BYTE_GRAY);
+        Graphics g = result.getGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return result;
+    }
+
+
+    public void drawAvailableActions(Graphics2D g) {
+        BufferedImage bimg;
+
+        final int offset = 2;
+        final int size = 50;
+        final int initPosx = 720;
+
+        int posx = 720;
+        int posy = 565;
+        int i = 0;
+
+        g.setColor(border);
+
+        ImageObserver io = (img, infoflags, x, y, width, height) -> false;
+
+        for (Building building : Game.availableBuildings.values()) {
+            try {
+                bimg = ImageIO.read(building.getImage());
+                bimg = convertToGrayScale(bimg);
+
+                g.drawImage(bimg, posx, posy, io);
+                g.drawRect(posx - 1, posy - 1, size + 1, size + 1);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            i++;
+            if (i % 5 == 0) {
+                posx = initPosx;
+                posy += size + offset * 2;
+            } else {
+                posx += size + offset * 2;
+            }
         }
     }
 

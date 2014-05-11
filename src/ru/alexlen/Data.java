@@ -1,8 +1,6 @@
 package ru.alexlen;
 
-import ru.alexlen.building.Spaceport;
-
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
