@@ -36,9 +36,10 @@ public class Main extends JPanel {
     final static Color debugFont = new Color(0x989898);
 
     double since = 0;
-    Font titleFont;
-    Font mainFont;
-    Font miniFont;
+    FontStyle titleFont;
+    FontStyle mainFont;
+    FontStyle miniFont;
+
     Drawer drawer = new Drawer();
 
     final Game game;
@@ -89,32 +90,11 @@ public class Main extends JPanel {
 
     void createFonts() {
 
-        InputStream fontStream;
-        try {
-            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
-            titleFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-            titleFont = titleFont.deriveFont(18f);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+        FontStyle.Builder builder =  new FontStyle.Builder();
 
-
-        try {
-            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
-            mainFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-            mainFont = mainFont.deriveFont(16f);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            fontStream = Main.class.getResourceAsStream("/font/JuraMedium.ttf");
-            miniFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-            miniFont = miniFont.deriveFont(12f);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
-        }
+        titleFont = builder.setFont("JuraMedium.ttf").setSize(16).setColor(new Color(0xFFFFFF)).build();
+        mainFont = builder.setFont("JuraMedium.ttf").setSize(14).setColor(new Color(0xFFFFFF)).build();
+        miniFont = builder.setFont("JuraLight.ttf").setSize(12).setColor(new Color(0xFFFFFF)).build();
     }
 
     @Override
@@ -150,7 +130,7 @@ public class Main extends JPanel {
         g.setColor(border);
         g.setBackground(bborder);
         for (Building building : game.player.buildings) {
-            setFont(mainFont);
+            drawer.setStyle(mainFont);
             int process;
             try {
                 bimg = ImageIO.read(building.getImage());
@@ -164,9 +144,7 @@ public class Main extends JPanel {
                     g.setColor(bborder);
                     process = (int) (50 * building.getProcessStatus());
                     g.fillRect(3, offset + 45, process, 5);
-                    g.setFont(miniFont);
-                    g.drawString("building ... ", 57, offset + 40);
-                    g.setFont(mainFont);
+                    drawer.drawString("building ... ", 57, offset + 40, miniFont);
                 }
 
                 offset += 53;
@@ -200,7 +178,7 @@ public class Main extends JPanel {
         g.drawLine(0, y, 1200, y);
 
 
-        setFont(mainFont);
+        drawer.setStyle(mainFont);
 
         if (s != null) {
             Meta meta = s.meta;
@@ -251,13 +229,13 @@ public class Main extends JPanel {
 
 
         if (debug) {
-            g.setFont(miniFont);
+            drawer.setStyle(miniFont);
             g.setColor(debugFont);
             g.drawString(String.format("Thread time: % 2d", System.currentTimeMillis() - time), 400, 15);
             g.drawString(String.format(" ms; Seconds:  %2.3f", (time - START_TIME) / 1000.0), 500, 15);
             g.drawString(String.format("%2.1f days/second", TIME_SPEED / 86_400), 650, 15);
             g.drawString(String.format("%2.1f FPS", 1 / RATE), 780, 15);
-            g.setFont(mainFont);
+            drawer.setStyle(mainFont);
         }
     }
 

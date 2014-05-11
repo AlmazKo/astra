@@ -19,7 +19,7 @@ public class Drawer {
     double radiusScale;
     double radiusMoonScale;
 
-    FontStyle miniFont = new FontStyle("JuraLight.ttf", 0xffAAAAAA, 11);
+    FontStyle miniFont = new FontStyle.Builder().setFont("JuraLight.ttf").setColor( 0xffAAAAAA).setSize(11).build();
 
     public static Coordinate GCENTER = new Coordinate(400, 350);
 
@@ -90,7 +90,7 @@ public class Drawer {
         final Font fontBackup = g.getFont();
 
         if (fontBackup != style.font) {
-            g.setFont(style.getFont());
+            g.setFont(style.font);
         }
 
         if (colorBackup != style.color) {
@@ -107,6 +107,17 @@ public class Drawer {
             g.setColor(colorBackup);
         }
 
+    }
+
+    void setStyle(FontStyle style) {
+
+        if (g.getFont() != style.font) {
+            g.setFont(style.font);
+        }
+
+        if (g.getColor() != style.color) {
+            g.setColor(style.color);
+        }
     }
 
     void reversDrawSubject(Subject s, Subject initChild, final Coordinate gc) {

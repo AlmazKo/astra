@@ -9,32 +9,63 @@ import java.io.InputStream;
  */
 public class FontStyle {
 
-    Font font;
-    Color color;
-    float size;
+    final Font font;
+    final Color color;
+    final float size;
 
-    public FontStyle(String fontName, int color, float size) {
-        createFont(fontName, size);
-        this.color = new Color(color);
-        this.size = size;
-    }
+    final static public class Builder {
 
-    private void createFont(String name, float size) {
+        private Color color;
+        private float size;
 
-        InputStream fontStream = FontStyle.class.getResourceAsStream("/font/" + name);
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
-            font = font.deriveFont(size);
-        } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
+        private String fontName;
+
+        public Builder() {
         }
+
+        Builder setColor(int color) {
+            this.color = new Color(color);
+            return this;
+        }
+
+        Builder setColor(Color color) {
+            this.color = color;
+            return this;
+        }
+
+        Builder setSize(float size) {
+            this.size = size;
+            return this;
+        }
+
+        Builder setFont(String fontName) {
+            this.fontName = fontName;
+            return this;
+        }
+
+        FontStyle build() {
+            return new FontStyle(createFont(fontName, size), color, size);
+        }
+
+        private Font createFont(String name, float size) {
+
+            Font font = null;
+            InputStream fontStream = Main.class.getResourceAsStream("/font/" + name);
+            try {
+                font = Font.createFont(Font.TRUETYPE_FONT, fontStream);
+                font = font.deriveFont(size);
+            } catch (FontFormatException | IOException e) {
+                e.printStackTrace();
+            }
+
+            return font;
+        }
+
     }
 
-    public Font getFont() {
-        return font;
-    }
-
-    public Color getColor() {
-        return color;
+    FontStyle(Font font, Color color, float size) {
+        this.font = font;
+        this.color = color;
+        this.size = size;
     }
 }
