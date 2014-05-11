@@ -1,6 +1,7 @@
 package ru.alexlen;
 
 import java.awt.*;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -13,6 +14,7 @@ public class Meta {
     float scale = 1;
     Color color = new Color(0xffffffff);
     final static String NO_NAME= "No name";
+    URL image;
 
     SubjectType type;
 

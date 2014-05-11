@@ -1,5 +1,7 @@
 package ru.alexlen;
 
+import ru.alexlen.building.Spaceport;
+
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -32,6 +34,7 @@ public class Data {
         mercury.meta.type = SubjectType.PLANET;
         mercury.meta.period = 115;
         mercury.meta.color = new Color(0xFEC07D);
+        mercury.meta.image = Data.class.getResource("/img/mercury_398x398.png");
         sun.add(mercury);
 
         Subject venus = new Subject(6051e+3, 224.7 * DAY, new PolarCoordinate(0, 108e+9));
@@ -39,6 +42,7 @@ public class Data {
         venus.meta.type = SubjectType.PLANET;
         venus.meta.period = 224;
         venus.meta.color = new Color(0x919D34);
+        venus.meta.image = Data.class.getResource("/img/venus_940x940.png");
         sun.add(venus);
 
         Subject earth = new Subject(6051e+3, 365.0 * DAY, new PolarCoordinate(0, 149e+9));
@@ -46,6 +50,7 @@ public class Data {
         earth.meta.type = SubjectType.PLANET;
         earth.meta.period = 365;
         earth.meta.color = new Color(0x15ABFF);
+        earth.meta.image = Data.class.getResource("/img/earth_512x512.png");
 
         Subject moon = new Subject(1738e+3, 29.5 * DAY, new PolarCoordinate(0, 384e+6));
         moon.meta.name = "Moon";
@@ -60,6 +65,7 @@ public class Data {
         mars.meta.type = SubjectType.PLANET;
         mars.meta.color = new Color(0xffff0000);
         mars.meta.period = 779;
+        mars.meta.image = Data.class.getResource("/img/mars_512x512.png");
         sun.add(mars);
 
         Subject fobos = new Subject(11.1e+3, 7 * HOUR + 39 * MINUTE + 14, new PolarCoordinate(0, 9.377e+6));
@@ -84,6 +90,7 @@ public class Data {
         jupiter.meta.period = 4_332;
         jupiter.meta.color = new Color(0x900000);
         jupiter.meta.scale = 1;
+        jupiter.meta.image = Data.class.getResource("/img/jupiter_600x600.png");
         sun.add(jupiter);
 
         Subject io = new Subject(1821e+3, 42.5 * DAY, new PolarCoordinate(0, 421e+6));
@@ -120,6 +127,7 @@ public class Data {
         saturn.meta.type = SubjectType.PLANET;
         saturn.meta.color = new Color(0xDFD864);
         saturn.meta.period = 10_759;
+        saturn.meta.image = Data.class.getResource("/img/saturn_1258x512.png");
         sun.add(saturn);
 
         Subject mimas = new Subject(397e+3, 0.942 * DAY, new PolarCoordinate(0, 185.4e+6));
@@ -172,6 +180,7 @@ public class Data {
         uranus.meta.type = SubjectType.PLANET;
         uranus.meta.color = new Color(0x93D6DF);
         uranus.meta.period = 10_759;
+        uranus.meta.image = Data.class.getResource("/img/uranus_512x512.png");
         sun.add(uranus);
 
 
@@ -211,6 +220,7 @@ public class Data {
         neptune.meta.type = SubjectType.PLANET;
         neptune.meta.color = new Color(0x335CE9);
         neptune.meta.period = 60_190;
+        neptune.meta.image = Data.class.getResource("/img/neptune_512x512.png");
         sun.add(neptune);
 
 

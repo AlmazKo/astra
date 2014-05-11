@@ -73,7 +73,7 @@ public class Main extends JPanel {
         frame.setJMenuBar(menuBar);
         frame.setLocation(100, 10);
         frame.setTitle("Polaris");
-        frame.setMinimumSize(new Dimension(1200, 700));
+        frame.setMinimumSize(new Dimension(1200, 720));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setIconImage(icon.getImage());
         frame.getContentPane().add(this);
@@ -210,6 +210,31 @@ public class Main extends JPanel {
             g.drawString(String.format("Period .............. %dd", meta.period), x, y + 50);
             g.drawString(String.format("Turns .............. %d ", s.cnt), x, y + 65);
             g.drawString(String.format("Angle ............... %1.6f ", s.p.angle), x, y + 80);
+
+            if (s.meta.image != null) {
+                BufferedImage bimg;
+
+                ImageObserver io = new ImageObserver() {
+                    @Override
+                    public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+                        return false;
+                    }
+                };
+
+                try {
+                    bimg = ImageIO.read(s.meta.image);
+                    if (bimg.getWidth() > bimg.getHeight()) {
+                        double scale = bimg.getWidth() * 1.0 / bimg.getHeight();
+                        g.drawImage(bimg, 2, 563, (int) (100 * scale), 100, io);
+                    } else {
+                        g.drawImage(bimg, 2, 563, 100, 100, io);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
 
         }
 
