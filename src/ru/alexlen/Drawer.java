@@ -19,6 +19,8 @@ public class Drawer {
     double radiusScale;
     double radiusMoonScale;
 
+    FontStyle miniFont = new FontStyle("JuraLight.ttf", 0xffAAAAAA, 11);
+
     public static Coordinate GCENTER = new Coordinate(400, 350);
 
     final static float dash1[] = {1.0f};
@@ -32,7 +34,7 @@ public class Drawer {
     void setScale(double value) {
         scale = value;
         sizeScale = value;
-        radiusScale = value ;
+        radiusScale = value;
         radiusMoonScale = sizeScale;
     }
 
@@ -47,6 +49,29 @@ public class Drawer {
         } else {
             drawSubject(Main.system, GCENTER);
         }
+
+        drawRuler(100, 1050, 540);
+    }
+
+    void drawRuler(final int width, final int posX, final int posY) {
+
+        int x = posX;
+        Color even = new Color(0x333333);
+        Color odd = new Color(0xCCCCCC);
+
+
+        for (int i = 0; i <= width; i += 10) {
+            if (i % 20 == 0) {
+                g.setColor(odd);
+            } else {
+                g.setColor(even);
+            }
+            g.fillRect(x, posY, 10, 2);
+            x += 10;
+        }
+
+        drawString(String.format("%2.0f km", 1 / scale * width / 1000.0), posX, posY + (int) miniFont.size, miniFont);
+
     }
 
     void drawSubject(final Subject s, final Coordinate sgc) {
@@ -57,6 +82,31 @@ public class Drawer {
 
             drawSubject(child, gc);
         }
+    }
+
+    void drawString(String text, int x, int y, FontStyle style) {
+
+        final Color colorBackup = g.getColor();
+        final Font fontBackup = g.getFont();
+
+        if (fontBackup != style.font) {
+            g.setFont(style.getFont());
+        }
+
+        if (colorBackup != style.color) {
+            g.setColor(style.color);
+        }
+
+        g.drawString(text, x, y);
+
+        if (fontBackup != style.font) {
+            g.setFont(fontBackup);
+        }
+
+        if (colorBackup != style.color) {
+            g.setColor(colorBackup);
+        }
+
     }
 
     void reversDrawSubject(Subject s, Subject initChild, final Coordinate gc) {
@@ -173,7 +223,6 @@ public class Drawer {
 
 
     double getRadiusScale(final Subject subject) {
-
 
 
         double currentScale = radiusScale;

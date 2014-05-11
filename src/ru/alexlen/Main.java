@@ -18,7 +18,7 @@ public class Main extends JPanel {
     final public static int BLINKED_TIMEOUT = 400;
     final public static int FAST_BLINKED_TIMEOUT = 100;
     final public static long START_TIME = System.currentTimeMillis();
-    public final static double BASE_TIME_SPEED = 86_400;
+    final public static double BASE_TIME_SPEED = 86_400;
 
     public static long time = START_TIME;
     public static long lastBlinkedTime = START_TIME;
@@ -28,7 +28,7 @@ public class Main extends JPanel {
     public static boolean isBlinked = true;
     public static boolean isFastBlinked = true;
     static Subject SELECTED_SUBJECT;
-    static int wwwwq;
+    static int SELECTED_INDEX;
 
     static Subject system;
 
