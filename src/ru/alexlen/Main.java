@@ -42,6 +42,9 @@ public class Main extends JPanel {
 
     Drawer drawer = new Drawer();
 
+    Color border = new Color(0x8DFFFD);
+    Color shadow = new Color(0x88000000, true);
+
     final Game game;
 
 
@@ -123,7 +126,6 @@ public class Main extends JPanel {
 
         ImageObserver io = (img, infoflags, x, y, width, height) -> false;
 
-        Color border = new Color(0x8DFFFD);
         Color bborder = new Color(0xFF32F2);
 
         int offset = 2;
@@ -173,8 +175,10 @@ public class Main extends JPanel {
         final int x = 320;
         final int y = 560;
 
+        g.setColor(shadow);
+        g.fillRect(0, y, 1200, 160);
 
-        g.setColor(new Color(0x8DFFFD));
+        g.setColor(border);
         g.drawLine(0, y, 1200, y);
 
 
@@ -213,7 +217,6 @@ public class Main extends JPanel {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
 
                 g.drawString(String.format("Name ................ %s", meta.name), x, y + 20);
                 g.drawString(String.format("Type ................. %s", meta.type), x, y + 35);

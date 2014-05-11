@@ -41,7 +41,7 @@ public class Data {
         venus.meta.name = "Venus";
         venus.meta.type = SubjectType.PLANET;
         venus.meta.period = 224;
-        venus.meta.color = new Color(0x919D34);
+        venus.meta.color = new Color(0xA7A443);
         venus.meta.image = Data.class.getResource("/img/venus_940x940.png");
         sun.add(venus);
 
@@ -63,7 +63,7 @@ public class Data {
         Subject mars = new Subject(4439e+3, 779.0 * DAY, new PolarCoordinate(0, 200e+9));
         mars.meta.name = "Mars";
         mars.meta.type = SubjectType.PLANET;
-        mars.meta.color = new Color(0xffff0000);
+        mars.meta.color = new Color(0xCA7E31);
         mars.meta.period = 779;
         mars.meta.image = Data.class.getResource("/img/mars_512x512.png");
         sun.add(mars);
@@ -88,7 +88,7 @@ public class Data {
         jupiter.meta.name = "Jupiter";
         jupiter.meta.type = SubjectType.PLANET;
         jupiter.meta.period = 4_332;
-        jupiter.meta.color = new Color(0x900000);
+        jupiter.meta.color = new Color(0x826E49);
         jupiter.meta.scale = 1;
         jupiter.meta.image = Data.class.getResource("/img/jupiter_600x600.png");
         sun.add(jupiter);
